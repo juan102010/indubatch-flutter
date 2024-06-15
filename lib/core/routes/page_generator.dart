@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:indubatch_movil/core/screens/splash_screen.dart';
+import 'package:indubatch_movil/features/auth/presentation/pages/splash_screen.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 /// It is a class that allows you to manipulate screen navigation without losing instances and references of elements
