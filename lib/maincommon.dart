@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:indubatch_movil/core/routes/global_keys.dart';
 import 'package:indubatch_movil/core/routes/navigators.dart';
 import 'package:indubatch_movil/core/routes/page_generator.dart';
-import 'package:indubatch_movil/core/screens/splash_screen.dart';
+import 'package:indubatch_movil/features/auth/presentation/pages/splash_screen.dart';
 import 'package:indubatch_movil/core/theme/app_theme.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
