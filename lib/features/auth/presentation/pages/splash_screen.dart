@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../core/routes/resource_icons.dart';
-import '../../../../core/theme/colors.dart';
+import '../../../../../../core/routes/resource_icons.dart';
+import '../../../../../../core/theme/colors.dart';
 
 
 class SplashPage extends StatefulWidget {
