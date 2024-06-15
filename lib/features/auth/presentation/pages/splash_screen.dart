@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../../core/routes/resource_icons.dart';
 import '../../../../../../core/theme/colors.dart';
-
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -67,8 +65,9 @@ class _SplashPageState extends State<SplashPage> {
       alignment: Alignment.center,
       child: Image(
         image: const AssetImage(logoSplash),
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         height: 15.h,
+        width: 90.w,
       ),
     );
   }
@@ -79,7 +78,7 @@ class _SplashPageState extends State<SplashPage> {
       height: double.infinity,
       decoration: const BoxDecoration(
           image: DecorationImage(
-        image: AssetImage(fondoFecurity),
+        image: AssetImage(fondoIndubatch),
         fit: BoxFit.cover,
       )),
     );

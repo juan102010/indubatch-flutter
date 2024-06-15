@@ -1,5 +1,5 @@
 //Logos
-const String fondoFecurity = "assets/images/fondo_fecurity.jpg";
+const String fondoIndubatch = "assets/images/fondo_indubatch.jpg";
 const String logoSplash = "assets/logo/indubatch-logo-blanco.png";
 const String logoWhite = "assets/logo/logo_white.png";
 const String logoBlack = "assets/logo/logo_black.png";
