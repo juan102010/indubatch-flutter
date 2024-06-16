@@ -17,9 +17,9 @@ class _TitleSplashState extends State<TitleSplash> {
       alignment: Alignment.center,
       child: Image(
         image: const AssetImage(logoWhite),
-        fit: BoxFit.contain,
-        height: 15.h,
-        width: size.width > 700 ? 98.w : 90.w,
+        fit: BoxFit.fill,
+        height: size.width > 700 ? 30.h : 15.h,
+        width: size.height > 700 ? 95.w : 90.w,
       ),
     );
   }

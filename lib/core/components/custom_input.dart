@@ -57,9 +57,7 @@ class CustomInput extends StatelessWidget {
       obscureText: obscureText,
       onChanged: onChanged,
       maxLength: maxLength,
-      style: size.width > 750
-          ? textStyleInput(colorInputText, Adaptive.sp(13))
-          : textStyleInput(colorInputText, Adaptive.sp(16)),
+      style: textStyleInput(colorInputText, size.width > 700 ? 2.w : 4.w),
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         fillColor: fillColor,
@@ -68,17 +66,14 @@ class CustomInput extends StatelessWidget {
         prefixIcon: prefixIcon,
         errorText: errorText,
         errorMaxLines: 2,
-        labelStyle: size.width > 750
-            ? textStylePlaceholder(
-                requiredData! ? redColor : colorInputText, Adaptive.sp(13))
-            : textStylePlaceholder(
-                requiredData! ? redColor : colorInputText, Adaptive.sp(16)),
+        labelStyle: textStylePlaceholder(
+            requiredData! ? redColor : colorInputText,
+            size.width > 700 ? 2.w : 4.w),
         labelText: placeholder,
         hintText: placeholder,
         counterText: "",
-        hintStyle: size.width > 750
-            ? textStylePlaceholder(colorInputText, Adaptive.sp(13))
-            : textStylePlaceholder(colorInputText, Adaptive.sp(16)),
+        hintStyle:
+            textStylePlaceholder(colorInputText, size.width > 700 ? 2.w : 4.w),
       ),
     );
   }
