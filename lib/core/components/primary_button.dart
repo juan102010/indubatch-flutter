@@ -29,7 +29,7 @@ class PrimaryButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
-              backgroundColor: secondColor,
+              backgroundColor: blueColor,
               disabledBackgroundColor: mainGrey,
             ),
             child: child,

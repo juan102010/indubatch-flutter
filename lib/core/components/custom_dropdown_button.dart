@@ -26,12 +26,12 @@ class CustomDropDownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
       isDense: Device.screenType == ScreenType.mobile ? true : false,
-      style: textStyleInput(primaryColor),
+      style: textStyleInput(primaryColor, 18),
       iconEnabledColor: dropdownColor,
       elevation: 8,
       menuMaxHeight: 50.h,
       decoration: InputDecoration(
-        hintStyle: textStyleInput(primaryColor),
+        hintStyle: textStyleInput(primaryColor, 18),
         hintText: hit,
       ),
 

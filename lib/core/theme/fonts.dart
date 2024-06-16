@@ -24,16 +24,17 @@ TextStyle textStyleNormal(Color color) => GoogleFonts.lato(
       fontWeight: FontWeight.w600,
     );
 
-TextStyle textStyleInput(Color color) => GoogleFonts.lato(
+TextStyle textStyleInput(Color color, double fontSize) => GoogleFonts.lato(
       color: color,
       fontWeight: FontWeight.w500,
-      fontSize: Adaptive.sp(17),
+      fontSize: Adaptive.sp(fontSize),
     );
 
-TextStyle textStylePlaceholder(Color color) => GoogleFonts.lato(
+TextStyle textStylePlaceholder(Color color, double fontSize) =>
+    GoogleFonts.lato(
       color: color,
       fontWeight: FontWeight.w500,
-      fontSize: Adaptive.sp(17),
+      fontSize: Adaptive.sp(fontSize),
     );
 
 /// This textStyle its for all white Text in the aplication
@@ -98,4 +99,9 @@ TextStyle get textWhiteStyle => GoogleFonts.lato(
       color: colorWhite,
       fontWeight: FontWeight.w600,
       fontSize: Adaptive.sp(14),
+    );
+TextStyle get textBlueUrl => GoogleFonts.lato(
+      color: lightBlue,
+      fontWeight: FontWeight.w600,
+      fontSize: Adaptive.sp(17),
     );
