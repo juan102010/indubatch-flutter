@@ -108,20 +108,29 @@ class _LoginPageState extends State<LoginPage> {
 
   /// Middle View to login form
   Column _middleView(AuthBloc authBloc, AuthState state) {
+    final size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         StreamBuilder(
-            stream: authBloc.emailStream,
+            stream: authBloc.userStream,
             builder: (_, AsyncSnapshot<String> snapshot) {
               return CustomInput(
+                suffixIcon: Padding(
+                  padding: EdgeInsets.only(right: 1.w),
+                  child: Icon(
+                    size: size.width > 750 ? 2.w : 6.w,
+                    Icons.person,
+                    color: mainGrey,
+                  ),
+                ),
                 colorInputText: primaryColor,
                 placeholder: AppLocalizations.of(context)!.user,
                 keyboardType: TextInputType.emailAddress,
                 errorText: snapshot.hasError ? snapshot.error.toString() : null,
                 onChanged: (text) {
                   //Update email to validate
-                  // authBloc.updateEmail(text, context);
+                  authBloc.updateUser(text, context);
                 },
               );
             }),
@@ -139,18 +148,18 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: visibility
                     ? SvgPicture.asset(
-                        height: 4.h,
-                        width: 4.w,
-                        eyeVisibleSVG,
+                        height: 2.5.h,
+                        width: 2.5.w,
+                        padlockOpenSVG,
                         colorFilter:
-                            const ColorFilter.mode(colorWhite, BlendMode.srcIn),
+                            const ColorFilter.mode(greenColor, BlendMode.srcIn),
                       )
                     : SvgPicture.asset(
-                        height: 4.h,
-                        width: 4.w,
-                        eyeInvisibleSVG,
+                        height: 2.5.h,
+                        width: 2.5.w,
+                        padlockSVG,
                         colorFilter: const ColorFilter.mode(
-                            secondColor, BlendMode.srcIn),
+                            primaryColor, BlendMode.srcIn),
                       ),
               );
 

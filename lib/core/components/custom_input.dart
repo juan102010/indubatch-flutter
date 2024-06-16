@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:indubatch_movil/core/theme/colors.dart';
 
 import '../theme/fonts.dart';
 
 class CustomInput extends StatelessWidget {
   final String placeholder;
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool obscureText;
@@ -16,11 +17,15 @@ class CustomInput extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLines;
   final Color colorInputText;
+  final Color? fillColor;
+  final String? initialValue;
+  final bool? enable;
+  final bool? requiredData;
 
   const CustomInput({
     super.key,
     required this.placeholder,
-    this.keyboardType = TextInputType.text,
+    this.keyboardType,
     this.controller,
     this.suffixIcon,
     this.prefixIcon,
@@ -31,11 +36,19 @@ class CustomInput extends StatelessWidget {
     this.maxLines,
     this.inputFormatters,
     required this.colorInputText,
+    this.fillColor,
+    this.initialValue,
+    this.enable = true,
+    this.requiredData = false,
   });
-
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    final size = MediaQuery.of(context).size;
+    return TextFormField(
+      enabled: enable,
+      initialValue: initialValue,
+      cursorColor: colorInputText,
+      showCursor: true,
       maxLines: maxLines ?? 1,
       controller: controller,
       autocorrect: false,
@@ -43,16 +56,28 @@ class CustomInput extends StatelessWidget {
       obscureText: obscureText,
       onChanged: onChanged,
       maxLength: maxLength,
-      style: textStyleInput(colorInputText),
+      style: size.width > 750
+          ? textStyleInput(colorInputText, 11)
+          : textStyleInput(colorInputText, 16),
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
+        fillColor: fillColor,
+        filled: !enable!,
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
         errorText: errorText,
         errorMaxLines: 2,
+        labelStyle: size.width > 750
+            ? textStylePlaceholder(
+                requiredData! ? redColor : colorInputText, 12)
+            : textStylePlaceholder(
+                requiredData! ? redColor : colorInputText, 16),
+        labelText: placeholder,
         hintText: placeholder,
         counterText: "",
-        hintStyle: textStylePlaceholder(colorInputText),
+        hintStyle: size.width > 750
+            ? textStylePlaceholder(colorInputText, 11)
+            : textStylePlaceholder(colorInputText, 16),
       ),
     );
   }

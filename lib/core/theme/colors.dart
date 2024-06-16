@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 const paymentColor = Color(0xff21232A);
 const primaryColor = Color.fromRGBO(78, 77, 77, 1);
 const secondColor = Color.fromRGBO(243, 145, 73, 1);
-const backgroundColor = Color.fromRGBO(243, 145, 73, 1);
 const greenColor = Color.fromRGBO(0, 177, 157, 1);
-const redColor = Color.fromRGBO(239, 75, 63, 1);
+const redColor = Color.fromRGBO(199, 0, 57, 1);
 const lightGray = Color.fromRGBO(98, 99, 96, 1);
 const backgroundGray = Color(0xFFF9F9F9);
-const patryColor = Color(0xFFCC6600);
-const homeColor = Color.fromRGBO(237, 165, 40, 1);
 const mainWhite = Color(0xFFD6D6D6);
 const colorWhite = Color(0xFFFFFFFF);
 const mainGrey = Color(0xFFADB8C4);
@@ -28,4 +25,3 @@ const filledColorInput = Color(0xFFE8E8E8);
 const filledHintStyleColor = Color(0xFFBDBDBD);
 
 const dropdownColor = Color(0xFFBABABA);
-

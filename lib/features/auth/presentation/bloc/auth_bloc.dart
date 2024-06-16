@@ -9,11 +9,11 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //define controllers login
-  final _emailController = BehaviorSubject<String>();
+  final _userController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
 
   //get data
-  Stream<String> get emailStream => _emailController.stream;
+  Stream<String> get userStream => _userController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
   AuthBloc() : super(const AuthState()) {
     on<ShowPasswordEvent>((event, emit) =>
@@ -21,12 +21,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   //validation of logion Email
-  void updateEmail(String userEmail, BuildContext context) async {
-    if (userEmail.isEmpty) {
-      _emailController.sink
+  void updateUser(String user, BuildContext context) async {
+    if (user.isEmpty) {
+      _userController.sink
           .addError(AppLocalizations.of(context)!.requiredfield);
     } else {
-      _emailController.sink.add(userEmail);
+      _userController.sink.add(user);
     }
   }
 
@@ -42,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   //check login validation form
   Stream<bool> get validateLoginForm => Rx.combineLatest2(
-        emailStream,
+        userStream,
         passwordStream,
         (a, b) => true,
       );

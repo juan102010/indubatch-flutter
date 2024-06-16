@@ -10,8 +10,8 @@ const colorScheme = ColorScheme(
   onPrimary: primaryColor,
   secondary: secondColor,
   onSecondary: secondColor,
-  error: secondColor,
-  onError: secondColor,
+  error: redColor,
+  onError: redColor,
   surface: colorWhite,
   onSurface: mainGrey,
 );
