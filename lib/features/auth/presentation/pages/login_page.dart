@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _principalBody(AuthBloc authBloc, AuthState state) {
+   
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(
         parent: BouncingScrollPhysics(),
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                 Image(
                   image: const AssetImage(logoBlue),
                   fit: BoxFit.fill,
-                  height: 15.h,
+                  height: 12.h,
                   width: 93.w,
                 ),
                 Padding(
