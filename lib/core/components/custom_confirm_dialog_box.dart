@@ -91,7 +91,7 @@ class _CustomConfirmDialogBox extends State<CustomConfirmDialogBox> {
             if (widget.title != null)
               Text(
                 widget.title!,
-                style: textBlackStyleSubTitle,
+                style: textBlackStyleSubTitle(Adaptive.sp(18)),
                 textAlign: TextAlign.center,
               ),
             SizedBox(height: 1.5.h),

@@ -29,8 +29,3 @@ const filledHintStyleColor = Color(0xFFBDBDBD);
 
 const dropdownColor = Color(0xFFBABABA);
 
-//Chart Blue Colors
-const charColorDarkBlue = Color(0xFF2C62A0);
-const charColorMediumBlue = Color(0xFF7099BC);
-const charColorLightBlue = Color(0xFF517FAA);
-const disabledColor = Color(0XFFE4E4E4);

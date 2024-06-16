@@ -86,10 +86,10 @@ TextStyle get textBlackStyleBold => GoogleFonts.lato(
 
 /// This textStyle its for all black SubTitle in the aplication
 
-TextStyle get textBlackStyleSubTitle => GoogleFonts.lato(
+TextStyle textBlackStyleSubTitle(double fontSize) => GoogleFonts.lato(
       color: primaryColor,
       fontWeight: FontWeight.w600,
-      fontSize: Adaptive.sp(18),
+      fontSize: fontSize,
     );
 
 /// This textStyle its for all white Text in the aplication
