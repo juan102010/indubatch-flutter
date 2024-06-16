@@ -1,4 +1,7 @@
 import 'package:indubatch_movil/core/theme/app_theme.dart';
+import 'package:indubatch_movil/features/about/presentation/pages/about_screen.dart';
+import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
+import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
 
 import '../../../../core/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +77,9 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, AboutScreen.routeName);
+                      },
                       child: Padding(
                         padding: EdgeInsets.all(3.h),
                         child: Text(
@@ -258,14 +263,18 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, ConfigurationScreen.routeName);
+            },
             child: Text(
               AppLocalizations.of(context)!.configuration,
               style: textBlueUrl,
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, ChangePasswordScreen.routeName);
+            },
             child: Text(
               AppLocalizations.of(context)!.changePassword,
               style: textBlueUrl,
