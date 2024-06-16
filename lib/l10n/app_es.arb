@@ -1,1 +1,5 @@
-{}
+{
+
+    "enter":"Ingresar",
+    "requiredfield": "Este campo es requerido"
+}

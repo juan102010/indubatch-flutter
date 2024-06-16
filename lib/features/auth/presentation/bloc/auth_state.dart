@@ -1,10 +1,20 @@
 part of 'auth_bloc.dart';
 
 class AuthState extends Equatable {
-  const AuthState();
+  final bool showPassword;
+  const AuthState({
+    this.showPassword = false,
+  });
 
-  AuthState copyWith() => const AuthState();
+  AuthState copyWith({
+    bool? showPassword,
+  }) =>
+      AuthState(
+        showPassword: showPassword ?? this.showPassword,
+      );
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        showPassword,
+      ];
 }
