@@ -1,22 +1,17 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
+import 'package:indubatch_movil/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> injectDependencies() async {
-  //getIt.pushNewScope();
+  getIt.pushNewScope();
 
   // Bloc
-  // getIt.registerFactory(
-  //   () => AuthBloc(
-  //     postLoginUseCase: getIt(),
-  //     setUserHeadquarterUseCase: getIt(),
-  //     localStorageRepository: getIt(),
-  //     getSchemaName: getIt(),
-  //   ),
-  // );
-
+  getIt.registerFactory(
+    () => AuthBloc(),
+  );
 
   //Server Api Client to Http consume rest apis
   // getIt.registerLazySingleton(
@@ -29,7 +24,6 @@ Future<void> injectDependencies() async {
   // Use cases
   //Login
   // getIt.registerLazySingleton(() => PostLoginUseCase(repository: getIt()));
-  
 
   // Repository
   // getIt.registerLazySingleton<AuthRepository>(
@@ -40,7 +34,6 @@ Future<void> injectDependencies() async {
   //   ),
   // );
 
- 
   //Data Source
   // getIt.registerLazySingleton<AuthDatasource>(() => AuthDatasourceImpl(
   //       apiClient: getIt(),

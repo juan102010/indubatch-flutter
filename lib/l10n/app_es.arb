@@ -1,1 +1,8 @@
-{}
+{
+
+    "enter":"Ingresar",
+    "requiredfield": "Este campo es requerido",
+    "welcomeTo":"Bienvenido a",
+    "enterDataToAccess":"Ingresa los siguientes datos para acceder",
+    "user":"Usuario"
+}
