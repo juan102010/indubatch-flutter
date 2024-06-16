@@ -15,7 +15,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //get data
   Stream<String> get emailStream => _emailController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
-  AuthBloc() : super(const AuthState());
+  AuthBloc() : super(const AuthState()) {
+    on<ShowPasswordEvent>((event, emit) =>
+        emit(state.copyWith(showPassword: event.showPassword)));
+  }
 
   //validation of logion Email
   void updateEmail(String userEmail, BuildContext context) async {

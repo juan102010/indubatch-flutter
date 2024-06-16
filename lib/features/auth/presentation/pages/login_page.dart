@@ -60,25 +60,35 @@ class _LoginPageState extends State<LoginPage> {
       ),
       children: [
         SizedBox(
-          height: 20.h,
+          height: 10.h,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: EdgeInsets.symmetric(horizontal: 2.w),
           child: Container(
             width: double.infinity,
             padding: EdgeInsets.all(0.5.h),
             decoration: _createCardShape(context),
             child: Column(
               children: [
-                SizedBox(
-                  height: 10.h,
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 1.h),
+                  child: Text(
+                    AppLocalizations.of(context)!.welcomeTo,
+                    style: textBlackStyleSubTitle(Adaptive.sp(20)),
+                  ),
                 ),
-                Text(
-                  AppLocalizations.of(context)!.enter,
-                  style: textTitleStyle,
+                Image(
+                  image: const AssetImage(logoBlue),
+                  fit: BoxFit.fill,
+                  height: 13.h,
+                  width: 80.w,
                 ),
-                SizedBox(
-                  height: 3.h,
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5.h),
+                  child: Text(
+                    AppLocalizations.of(context)!.enterDataToAccess,
+                    style: textBlackStyleSubTitle(Adaptive.sp(16)),
+                  ),
                 ),
                 _middleView(authBloc, state),
                 SizedBox(
@@ -88,7 +98,6 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 2.h,
                 ),
-                _bottomTextButton(authBloc),
               ],
             ),
           ),
@@ -107,8 +116,7 @@ class _LoginPageState extends State<LoginPage> {
             builder: (_, AsyncSnapshot<String> snapshot) {
               return CustomInput(
                 colorInputText: primaryColor,
-                // placeholder: AppLocalizations.of(context)!.email,
-                placeholder: 'email',
+                placeholder: AppLocalizations.of(context)!.user,
                 keyboardType: TextInputType.emailAddress,
                 errorText: snapshot.hasError ? snapshot.error.toString() : null,
                 onChanged: (text) {
@@ -184,20 +192,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       },
-    );
-  }
-
-  TextButton _bottomTextButton(AuthBloc authBloc) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        textStyle: const TextStyle(fontSize: 20),
-      ),
-      onPressed: () async {},
-      child: Text(
-        // AppLocalizations.of(context)!.enterUserGuest,
-        'enterUserGuest',
-        style: textStyleNormal(primaryColor),
-      ),
     );
   }
 

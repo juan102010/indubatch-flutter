@@ -1,8 +1,7 @@
 //Logos
 const String fondoIndubatch = "assets/images/fondo_indubatch.jpg";
-const String logoSplash = "assets/logo/indubatch-logo-blanco.png";
-const String logoWhite = "assets/logo/logo_white.png";
-const String logoBlack = "assets/logo/logo_black.png";
+const String logoWhite = "assets/logo/indubatch-logo-blanco.png";
+const String logoBlue = "assets/logo/indubatch-logo-color.png";
 
 //Gift
 const String loadingGIF = "assets/gifs/loading.gif";
