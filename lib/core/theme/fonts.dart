@@ -100,3 +100,8 @@ TextStyle get textWhiteStyle => GoogleFonts.lato(
       fontWeight: FontWeight.w600,
       fontSize: Adaptive.sp(14),
     );
+TextStyle get textBlueUrl => GoogleFonts.lato(
+      color: lightBlue,
+      fontWeight: FontWeight.w600,
+      fontSize: Adaptive.sp(17),
+    );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:indubatch_movil/core/theme/colors.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../theme/fonts.dart';
 
@@ -57,8 +58,8 @@ class CustomInput extends StatelessWidget {
       onChanged: onChanged,
       maxLength: maxLength,
       style: size.width > 750
-          ? textStyleInput(colorInputText, 11)
-          : textStyleInput(colorInputText, 16),
+          ? textStyleInput(colorInputText, Adaptive.sp(13))
+          : textStyleInput(colorInputText, Adaptive.sp(16)),
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         fillColor: fillColor,
@@ -69,15 +70,15 @@ class CustomInput extends StatelessWidget {
         errorMaxLines: 2,
         labelStyle: size.width > 750
             ? textStylePlaceholder(
-                requiredData! ? redColor : colorInputText, 12)
+                requiredData! ? redColor : colorInputText, Adaptive.sp(13))
             : textStylePlaceholder(
-                requiredData! ? redColor : colorInputText, 16),
+                requiredData! ? redColor : colorInputText, Adaptive.sp(16)),
         labelText: placeholder,
         hintText: placeholder,
         counterText: "",
         hintStyle: size.width > 750
-            ? textStylePlaceholder(colorInputText, 11)
-            : textStylePlaceholder(colorInputText, 16),
+            ? textStylePlaceholder(colorInputText, Adaptive.sp(13))
+            : textStylePlaceholder(colorInputText, Adaptive.sp(16)),
       ),
     );
   }

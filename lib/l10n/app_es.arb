@@ -4,5 +4,10 @@
     "requiredfield": "Este campo es requerido",
     "welcomeTo":"Bienvenido a",
     "enterDataToAccess":"Ingresa los siguientes datos para acceder",
-    "user":"Usuario"
+    "user":"Usuario",
+    "password":"Contraseña",
+    "company":"Empresa",
+    "changePassword":"Cambiar clave",
+    "configuration":"Configuración",
+    "about":"Acerca de"
 }

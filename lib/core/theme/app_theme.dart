@@ -1,3 +1,5 @@
+import 'package:responsive_sizer/responsive_sizer.dart';
+
 import 'colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,3 +76,16 @@ final appTheme = ThemeData(
   inputDecorationTheme: inputDecorationTheme,
   colorScheme: colorScheme.copyWith(error: secondColor),
 );
+
+BoxDecoration createCardShapeLogin(BuildContext context) {
+  return BoxDecoration(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.all(Radius.circular(5.h)),
+      boxShadow: const [
+        BoxShadow(
+          color: colorWhite,
+          blurRadius: 15,
+          offset: Offset(0, 5),
+        )
+      ]);
+}

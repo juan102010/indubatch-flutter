@@ -11,10 +11,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //define controllers login
   final _userController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
+  final _companyController = BehaviorSubject<String>();
 
   //get data
   Stream<String> get userStream => _userController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
+  Stream<String> get companyStream => _companyController.stream;
+
   AuthBloc() : super(const AuthState()) {
     on<ShowPasswordEvent>((event, emit) =>
         emit(state.copyWith(showPassword: event.showPassword)));
@@ -30,6 +33,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
+  void updateCompany(String company, BuildContext context) async {
+    if (company.isEmpty) {
+      _companyController.sink
+          .addError(AppLocalizations.of(context)!.requiredfield);
+    } else {
+      _companyController.sink.add(company);
+    }
+  }
+
   //validation of Password form
   void updatePassword(String password, BuildContext context) {
     if (password.isEmpty) {
@@ -41,9 +53,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   //check login validation form
-  Stream<bool> get validateLoginForm => Rx.combineLatest2(
+  Stream<bool> get validateLoginForm => Rx.combineLatest3(
         userStream,
         passwordStream,
-        (a, b) => true,
+        companyStream,
+        (a, b, c) => true,
       );
 }
