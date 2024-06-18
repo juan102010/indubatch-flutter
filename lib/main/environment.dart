@@ -5,5 +5,6 @@ const Map<String, dynamic> env = {
   //!local
   // "serviceUrlApiIndubatch": "localhost:44383",
   "protocol": "https",
-  "secretKeyGemini": "AIzaSyAQq8V4SMwfylVogyuVtJhhxm3Ji0G4HJg"
+  "secretKeyGemini": "AIzaSyAQq8V4SMwfylVogyuVtJhhxm3Ji0G4HJg",
+  "secretKey": "F0FAF915624F41e2B226CC431D43B42D",
 };

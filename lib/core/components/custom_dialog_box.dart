@@ -72,7 +72,7 @@ class _CustomDialogBox extends State<CustomDialogBox> {
                 const SizedBox(height: 5),
                 Text(
                   widget.subDescriptions ?? '',
-                  style: textBlackStyleSubTitle,
+                  style: textBlackStyleSubTitle(Adaptive.sp(18)),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 22),

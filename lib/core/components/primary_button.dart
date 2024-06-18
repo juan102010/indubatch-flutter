@@ -18,10 +18,12 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Row(children: [
       Expanded(
         child: SizedBox(
-          height: 6.h,
+          height: size.width > 700 ? 6.h : 6.h,
           width: width,
           child: ElevatedButton(
             onPressed: onPressed,
@@ -29,7 +31,7 @@ class PrimaryButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
-              backgroundColor: secondColor,
+              backgroundColor: blueColor,
               disabledBackgroundColor: mainGrey,
             ),
             child: child,
