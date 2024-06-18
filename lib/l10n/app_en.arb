@@ -1,1 +1,16 @@
-{}
+{
+    "enter":"Enter",
+    "requiredfield": "this field is required",
+    "welcomeTo":"Welcome to",
+    "enterDataToAccess":"Enter the following data to access",
+    "user":"User",
+    "password":"Password",
+    "company":"Company",
+    "changePassword":"Change password",
+    "configuration":"Configuration",
+    "about":"About",
+    "spanish":"Spanish",
+    "english":"English",
+    "language":"Language"
+
+}

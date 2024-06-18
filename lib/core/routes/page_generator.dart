@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:indubatch_movil/core/screens/splash_screen.dart';
+import 'package:indubatch_movil/features/about/presentation/pages/about_screen.dart';
+import 'package:indubatch_movil/features/auth/presentation/pages/login_page.dart';
+import 'package:indubatch_movil/features/auth/presentation/pages/splash_screen.dart';
+import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
+import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 /// It is a class that allows you to manipulate screen navigation without losing instances and references of elements
@@ -13,6 +17,18 @@ class PageClassGenerator {
     switch (routeSettings.name) {
       case SplashPage.routeName:
         builder = (context) => const SplashPage();
+        break;
+      case LoginPage.routeName:
+        builder = (context) => const LoginPage();
+        break;
+      case ConfigurationScreen.routeName:
+        builder = (context) => const ConfigurationScreen();
+        break;
+      case ChangePasswordScreen.routeName:
+        builder = (context) => const ChangePasswordScreen();
+        break;
+      case AboutScreen.routeName:
+        builder = (context) => const AboutScreen();
         break;
 
       //rutas de prueba
