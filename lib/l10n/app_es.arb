@@ -9,5 +9,8 @@
     "company":"Empresa",
     "changePassword":"Cambiar clave",
     "configuration":"Configuración",
-    "about":"Acerca de"
+    "about":"Acerca de",
+    "spanish":"Español",
+    "english":"Ingles",
+    "language":"Idioma"
 }

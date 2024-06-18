@@ -18,9 +18,9 @@ TextStyle get textTitleStyle => GoogleFonts.lato(
     );
 
 /// This textStyle its for all Text in the aplication
-TextStyle textStyleNormal(Color color) => GoogleFonts.lato(
+TextStyle textStyleNormal(Color color, double fontSize) => GoogleFonts.lato(
       color: color,
-      fontSize: Adaptive.sp(17),
+      fontSize: Adaptive.sp(fontSize),
       fontWeight: FontWeight.w600,
     );
 
@@ -45,8 +45,13 @@ TextStyle get textWhiteStyleButton => GoogleFonts.lato(
       fontSize: Adaptive.sp(17),
     );
 
-/// This textStyle its for all white Text in the aplication
+TextStyle get textGrayStylePlaceholder => GoogleFonts.lato(
+      color: primaryColor,
+      fontWeight: FontWeight.w500,
+      fontSize: Adaptive.sp(13),
+    );
 
+/// This textStyle its for all white Text in the aplication
 TextStyle get textBlackStyleButton => GoogleFonts.lato(
       color: primaryColor,
       fontWeight: FontWeight.w600,

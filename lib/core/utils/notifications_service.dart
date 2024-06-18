@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:indubatch_movil/core/theme/colors.dart';
 import 'package:indubatch_movil/core/theme/fonts.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class NotificationsService {
   static GlobalKey<ScaffoldMessengerState> messageKey =
@@ -17,7 +18,7 @@ class NotificationsService {
   static showDefaultDialog(String title) {
     return Get.defaultDialog(
       title: title,
-      titleStyle: textStyleNormal(colorWhite),
+      titleStyle: textStyleNormal(colorWhite,Adaptive.sp(17)),
       content: const Column(
         children: [
           CircularProgressIndicator(

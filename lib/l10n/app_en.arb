@@ -8,6 +8,9 @@
     "company":"Company",
     "changePassword":"Change password",
     "configuration":"Configuration",
-    "about":"About"
+    "about":"About",
+    "spanish":"Spanish",
+    "english":"English",
+    "language":"Language"
 
 }

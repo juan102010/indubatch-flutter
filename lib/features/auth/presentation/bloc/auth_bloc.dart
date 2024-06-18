@@ -12,11 +12,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _userController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
   final _companyController = BehaviorSubject<String>();
+  final _languageController = BehaviorSubject<String>();
 
   //get data
   Stream<String> get userStream => _userController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
   Stream<String> get companyStream => _companyController.stream;
+  Stream<String> get languageStream => _languageController.stream;
 
   AuthBloc() : super(const AuthState()) {
     on<ShowPasswordEvent>((event, emit) =>
@@ -30,6 +32,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           .addError(AppLocalizations.of(context)!.requiredfield);
     } else {
       _userController.sink.add(user);
+    }
+  }
+
+  void updateLanguage(String language, BuildContext context) async {
+    if (language.isEmpty) {
+      _languageController.sink
+          .addError(AppLocalizations.of(context)!.requiredfield);
+    } else {
+      _languageController.sink.add(language);
     }
   }
 
