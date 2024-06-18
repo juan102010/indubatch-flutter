@@ -57,6 +57,7 @@ dependencies:
   sqflite: ^2.3.3+1
   syncfusion_flutter_charts: ^25.2.7
   modal_bottom_sheet: ^3.0.0
+  dropdown_button2: ^2.3.9
   flutter:
     sdk: flutter
 

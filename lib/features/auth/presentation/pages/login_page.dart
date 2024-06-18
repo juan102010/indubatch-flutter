@@ -1,5 +1,6 @@
 import 'package:indubatch_movil/core/theme/app_theme.dart';
 import 'package:indubatch_movil/features/about/presentation/pages/about_screen.dart';
+import 'package:indubatch_movil/features/auth/presentation/widgets/dropdown_button.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
 
@@ -28,7 +29,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final AuthBloc authBloc = getIt<AuthBloc>();
-
+  dynamic languageText = '';
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _principalBody(AuthBloc authBloc, AuthState state) {
-   
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(
         parent: BouncingScrollPhysics(),
@@ -220,6 +220,16 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             }),
+        SizedBox(height: 2.h),
+        DropdownButtonLogin(
+          authBloc: authBloc,
+          items: [
+            AppLocalizations.of(context)!.spanish,
+            AppLocalizations.of(context)!.english
+          ],
+          text: AppLocalizations.of(context)!.language,
+          languageController: languageText,
+        )
       ],
     );
   }
