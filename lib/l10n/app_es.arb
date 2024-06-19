@@ -12,5 +12,7 @@
     "about":"Acerca de",
     "spanish":"Español",
     "english":"Ingles",
-    "language":"Idioma"
+    "language":"Idioma",
+    "accept": "Continue",
+	"sorry": "Lo sentimos"
 }

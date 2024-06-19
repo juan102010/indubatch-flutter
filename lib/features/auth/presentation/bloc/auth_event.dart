@@ -11,3 +11,15 @@ class ShowPasswordEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+// -----------------------------------/// ---------------------------------/// Creation of pdf event /// -------------------------------------/// ------------------------------------///
+
+class GetUrlCompanyEvent extends AuthEvent {
+  final String urlCompany;
+
+  const GetUrlCompanyEvent({
+    required this.urlCompany,
+  });
+
+  @override
+  List<Object> get props => [urlCompany];
+}

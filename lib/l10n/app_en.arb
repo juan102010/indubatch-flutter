@@ -11,6 +11,8 @@
     "about":"About",
     "spanish":"Spanish",
     "english":"English",
-    "language":"Language"
+    "language":"Language",
+    "accept": "Next",
+	"sorry": "Sorry"
 
 }

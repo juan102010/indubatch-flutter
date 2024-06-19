@@ -1,5 +1,7 @@
+import 'package:indubatch_movil/core/components/custom_dialog_box.dart';
 import 'package:indubatch_movil/core/theme/app_theme.dart';
 import 'package:indubatch_movil/features/about/presentation/pages/about_screen.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/get_company_entity.dart';
 import 'package:indubatch_movil/features/auth/presentation/widgets/dropdown_button.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
@@ -31,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   final AuthBloc authBloc = getIt<AuthBloc>();
   dynamic languageText = '';
   bool _isLoading = false;
+  List<GetCompanyEntity> listGetCompanyEntity = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +51,24 @@ class _LoginPageState extends State<LoginPage> {
             body: BlocProvider.value(
               value: authBloc,
               child: BlocConsumer<AuthBloc, AuthState>(
-                listener: (context, state) async {},
+                listener: (context, state) async {
+                  if (state is LoadingGetUrlCompanyState) {
+                    _isLoading = true;
+                  }
+                  if (state is FailedGetUrlCompanyState) {
+                    _isLoading = false;
+
+                    _errorMessage(state.message);
+                  }
+                  if (state is SuccessGetUrlCompanyState) {
+                    _isLoading = false;
+                    listGetCompanyEntity = state.listGetCompanyEntity;
+                    listGetCompanyEntity.isNotEmpty
+                        ? _errorMessage(listGetCompanyEntity.first.url!)
+                        : _errorMessage(
+                            'no se encuentra ninguna empresa por ese nombre');
+                  }
+                },
                 builder: (context, state) => _isLoading
                     ? const CustomLoadingPage()
                     : _principalBody(authBloc, state),
@@ -58,6 +78,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _errorMessage(String message) async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomDialogBox(
+              icon: SvgPicture.asset(
+                warningModalSVG,
+                colorFilter:
+                    const ColorFilter.mode(secondColor, BlendMode.srcIn),
+              ),
+              title: AppLocalizations.of(context)!.sorry,
+              descriptions: message,
+              confirmText: AppLocalizations.of(context)!.accept,
+              onAccept: () {
+                Navigator.pop(context);
+              });
+        });
   }
 
   Widget _principalBody(AuthBloc authBloc, AuthState state) {
@@ -254,6 +293,8 @@ class _LoginPageState extends State<LoginPage> {
                   print(username);
                   print(password);
                   print(company);
+
+                  authBloc.add(GetUrlCompanyEvent(urlCompany: company));
                 }
               : null,
           height: 6.h,

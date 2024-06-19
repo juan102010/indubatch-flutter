@@ -1,5 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
+import 'package:indubatch_movil/core/network/network_info.dart';
+import 'package:indubatch_movil/core/network/server_api_client.dart';
+import 'package:indubatch_movil/features/auth/data/datasources/auth_datasource.dart';
+import 'package:indubatch_movil/features/auth/data/datasources/auth_datasource_impl.dart';
+import 'package:indubatch_movil/features/auth/data/repositories/auth_repositories_impl.dart';
+import 'package:indubatch_movil/features/auth/domain/repositories/auth_repository.dart';
+import 'package:indubatch_movil/features/auth/domain/usescases/get_url_company_usescases.dart';
 import 'package:indubatch_movil/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,42 +17,40 @@ Future<void> injectDependencies() async {
 
   // Bloc
   getIt.registerFactory(
-    () => AuthBloc(),
+    () => AuthBloc(getUrlCompanyUsescase: getIt()),
   );
 
   //Server Api Client to Http consume rest apis
-  // getIt.registerLazySingleton(
-  //   () => ServerApiClient(
-  //     networkInfoRepository: getIt(),
-  //     getUserInfoUseCase: getIt(),
-  //   ),
-  // );
+  getIt.registerLazySingleton(
+    () => ServerApiClient(
+      networkInfoRepository: getIt(),
+    ),
+  );
 
   // Use cases
   //Login
-  // getIt.registerLazySingleton(() => PostLoginUseCase(repository: getIt()));
+  getIt.registerLazySingleton(() => GetUrlCompanyUsescase(repository: getIt()));
 
   // Repository
-  // getIt.registerLazySingleton<AuthRepository>(
-  //   () => AuthRepositoryImp(
-  //     localStorageRepository: getIt(),
-  //     authDataSource: getIt(),
-  //     apiClient: getIt(),
-  //   ),
-  // );
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImp(
+      // localStorageRepository: getIt(),
+      authDataSource: getIt(),
+      apiClient: getIt(),
+    ),
+  );
 
   //Data Source
-  // getIt.registerLazySingleton<AuthDatasource>(() => AuthDatasourceImpl(
-  //       apiClient: getIt(),
-  //     ));
+  getIt.registerLazySingleton<AuthDatasource>(() => AuthDatasourceImpl(
+        apiClient: getIt(),
+      ));
 
   //!Core
   // Network Handler
-  // getIt.registerLazySingleton<NetworkInfoRepository>(
-  //     () => NetworkInfoRepositoryImpl());
+  getIt.registerLazySingleton<NetworkInfoRepository>(
+      () => NetworkInfoRepositoryImpl());
 
   //! Services
-  // getIt.registerLazySingleton(() => DataBaseService());
 
   // local storage actions
   // getIt.registerLazySingleton<LocalStorageRepository>(
