@@ -1,7 +1,8 @@
 import 'package:indubatch_movil/core/components/custom_dialog_box.dart';
 import 'package:indubatch_movil/core/theme/app_theme.dart';
 import 'package:indubatch_movil/features/about/presentation/pages/about_screen.dart';
-import 'package:indubatch_movil/features/auth/domain/entities/get_company_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/response_get_company_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/response_login_entity.dart';
 import 'package:indubatch_movil/features/auth/presentation/widgets/dropdown_button.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   dynamic languageText = '';
   bool _isLoading = false;
   List<GetCompanyEntity> listGetCompanyEntity = [];
+  LoginResponseEntity loginResponseEntity = const LoginResponseEntity.empty();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,21 +54,34 @@ class _LoginPageState extends State<LoginPage> {
               value: authBloc,
               child: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) async {
-                  if (state is LoadingGetUrlCompanyState) {
+                  if (state is LoadingGetUrlCompanyState ||
+                      state is LoadingPostLoginEmailState) {
                     _isLoading = true;
                   }
                   if (state is FailedGetUrlCompanyState) {
                     _isLoading = false;
-
+                    _errorMessage(state.message);
+                  }
+                  if (state is FailedPostLoginEmailState) {
+                    _isLoading = false;
                     _errorMessage(state.message);
                   }
                   if (state is SuccessGetUrlCompanyState) {
                     _isLoading = false;
                     listGetCompanyEntity = state.listGetCompanyEntity;
                     listGetCompanyEntity.isNotEmpty
-                        ? _errorMessage(listGetCompanyEntity.first.url!)
+                        ? authBloc.add(const PostLoginEmail())
                         : _errorMessage(
                             'no se encuentra ninguna empresa por ese nombre');
+                  }
+                  if (state is SuccessPostLoginEmailState) {
+                    _isLoading = false;
+                    if (state.tokenEntity.token!.isNotEmpty) {
+                      loginResponseEntity = state.tokenEntity;
+                      print(loginResponseEntity.token);
+                    } else {
+                      await _errorMessage(state.tokenEntity.message ?? '');
+                    }
                   }
                 },
                 builder: (context, state) => _isLoading

@@ -2,20 +2,25 @@ part of 'auth_bloc.dart';
 
 class AuthState extends Equatable {
   final bool showPassword;
+  final bool isAuthenticated;
   const AuthState({
     this.showPassword = false,
+    this.isAuthenticated = false,
   });
 
   AuthState copyWith({
     bool? showPassword,
+    bool? isAuthenticated,
   }) =>
       AuthState(
         showPassword: showPassword ?? this.showPassword,
+        isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       );
 
   @override
   List<Object?> get props => [
         showPassword,
+        isAuthenticated,
       ];
 }
 // -----------------------------------/// -----------------------------------///GetListCompanies/// -----------------------------------/// -----------------------------------///
@@ -68,5 +73,55 @@ class SuccessGetUrlCompanyState extends AuthState {
   List<Object?> get props => [];
 }
 
-
 // -----------------------------------/// -----------------------------------///------------------------------- /// -----------------------------------/// -----------------------------------///
+//-----------------------------------/// -----------------------------------/// Class for login State /// -----------------------------------/// -----------------------------------///
+
+class LoadingPostLoginEmailState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FailedPostLoginEmailState extends AuthState {
+  final String error;
+  final String message;
+
+  const FailedPostLoginEmailState({
+    required this.error,
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [error, message];
+}
+
+class PostLoginEmailState extends AuthState {
+  final LoginResponseEntity tokenEntity;
+
+  const PostLoginEmailState({
+    required this.tokenEntity,
+  });
+
+  @override
+  List<Object?> get props => [tokenEntity];
+
+  @override
+  String toString() {
+    return '''
+      Get Token: 
+        Token: ${tokenEntity.toString()}
+    ''';
+  }
+}
+
+class SuccessPostLoginEmailState extends AuthState {
+  final LoginResponseEntity tokenEntity;
+
+  const SuccessPostLoginEmailState({
+    required this.tokenEntity,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// --------------------------------------------------/// -----------------------------------/// -----------------------------------/// -----------------------------------

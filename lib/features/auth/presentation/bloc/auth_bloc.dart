@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:indubatch_movil/core/network/failure.dart';
 import 'package:indubatch_movil/core/utils/constants.dart';
-import 'package:indubatch_movil/features/auth/data/models/get_company_model.dart';
+import 'package:indubatch_movil/features/auth/data/models/response_get_company_model.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/response_login_entity.dart';
 import 'package:indubatch_movil/features/auth/domain/usescases/get_url_company_usescases.dart';
+import 'package:indubatch_movil/features/auth/domain/usescases/post_login_usecase.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,13 +15,14 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  // Use cases
+  final GetUrlCompanyUsescase getUrlCompanyUsescase;
+  final PostLoginUsescase postLoginUsescase;
   //define controllers login
   final _userController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
   final _companyController = BehaviorSubject<String>();
   final _languageController = BehaviorSubject<String>();
-  // Use cases
-  final GetUrlCompanyUsescase getUrlCompanyUsescase;
   //get data
   Stream<String> get userStream => _userController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
@@ -27,14 +31,63 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc({
     required this.getUrlCompanyUsescase,
+    required this.postLoginUsescase,
   }) : super(const AuthState()) {
     on<ShowPasswordEvent>((event, emit) =>
         emit(state.copyWith(showPassword: event.showPassword)));
     on<GetUrlCompanyEvent>((event, emit) async {
       emit(await _getUrlCompany(event: event, emit: emit));
     });
+    on<PostLoginEmail>((event, emit) async {
+      emit(await _postLogin(event: event, emit: emit));
+    });
   }
 
+  // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
+  Future<AuthState> _postLogin({
+    required PostLoginEmail event,
+    required Emitter<AuthState> emit,
+  }) async {
+    emit(LoadingPostLoginEmailState());
+
+    LoginEntity loginEntity = await _setEditCategoriesEntity();
+
+    final user = await postLoginUsescase(
+        ParamsUsescasePostLogin(loginEntity: loginEntity));
+
+    return user.fold(
+      (failure) {
+        emit(FailedPostLoginEmailState(
+            error: _mapFailureToMessage(failure),
+            message: failure.props.isNotEmpty
+                ? failure.props.first.toString()
+                : ''));
+
+        return const PostLoginEmailState(
+          tokenEntity: LoginResponseEntity.empty(),
+        );
+      },
+      (response) {
+        emit(SuccessPostLoginEmailState(tokenEntity: response.result));
+
+        return PostLoginEmailState(tokenEntity: response.result);
+      },
+    );
+  }
+
+  // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
+  //Method to assign the values that are in the Strim to the category entity.
+  Future<LoginEntity> _setEditCategoriesEntity() async {
+    LoginEntity loginEntity = LoginEntity(
+        clave: await passwordStream.first,
+        empresa: await companyStream.first,
+        //TODO se requiere que sea dinamico
+        equipoId: '0DB38950-4736-475B-97E0-39C2C272DF9D',
+        //TODO se requiere que sea dinamico
+        idioma: '1',
+        usuario: await userStream.first);
+    return loginEntity;
+  }
   // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
 
   Future<AuthState> _getUrlCompany({
@@ -55,8 +108,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 failure.props.isNotEmpty ? failure.props.first.toString() : '',
           ),
         );
-        return  const GetUrlCompanyState(
-          listGetCompanyEntity:[],
+        return const GetUrlCompanyState(
+          listGetCompanyEntity: [],
         );
       },
       (response) {

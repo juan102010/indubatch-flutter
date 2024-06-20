@@ -2,11 +2,14 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:indubatch_movil/core/network/network_info.dart';
 import 'package:indubatch_movil/core/network/server_api_client.dart';
+import 'package:indubatch_movil/core/repositories/local_storage_repository.dart';
+import 'package:indubatch_movil/core/repositories/local_storage_repository_impl.dart';
 import 'package:indubatch_movil/features/auth/data/datasources/auth_datasource.dart';
 import 'package:indubatch_movil/features/auth/data/datasources/auth_datasource_impl.dart';
 import 'package:indubatch_movil/features/auth/data/repositories/auth_repositories_impl.dart';
 import 'package:indubatch_movil/features/auth/domain/repositories/auth_repository.dart';
 import 'package:indubatch_movil/features/auth/domain/usescases/get_url_company_usescases.dart';
+import 'package:indubatch_movil/features/auth/domain/usescases/post_login_usecase.dart';
 import 'package:indubatch_movil/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,24 +20,29 @@ Future<void> injectDependencies() async {
 
   // Bloc
   getIt.registerFactory(
-    () => AuthBloc(getUrlCompanyUsescase: getIt()),
+    () => AuthBloc(
+      getUrlCompanyUsescase: getIt(),
+      postLoginUsescase: getIt(),
+    ),
   );
 
   //Server Api Client to Http consume rest apis
   getIt.registerLazySingleton(
     () => ServerApiClient(
       networkInfoRepository: getIt(),
+      localStorageRepository: getIt(),
     ),
   );
 
   // Use cases
   //Login
   getIt.registerLazySingleton(() => GetUrlCompanyUsescase(repository: getIt()));
+  getIt.registerLazySingleton(() => PostLoginUsescase(repository: getIt()));
 
   // Repository
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImp(
-      // localStorageRepository: getIt(),
+      localStorageRepository: getIt(),
       authDataSource: getIt(),
       apiClient: getIt(),
     ),
@@ -43,6 +51,7 @@ Future<void> injectDependencies() async {
   //Data Source
   getIt.registerLazySingleton<AuthDatasource>(() => AuthDatasourceImpl(
         apiClient: getIt(),
+        localStorageRepository: getIt(),
       ));
 
   //!Core
@@ -53,10 +62,8 @@ Future<void> injectDependencies() async {
   //! Services
 
   // local storage actions
-  // getIt.registerLazySingleton<LocalStorageRepository>(
-  //     () => LocalStorageRepositoryImpl());
-  // getIt.registerLazySingleton<LocalDatabaseRepository>(
-  //     () => LocalDatabaseRepositoryImpl());
+  getIt.registerLazySingleton<LocalStorageRepository>(
+      () => LocalStorageRepositoryImpl());
 
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();

@@ -6,4 +6,4 @@ String secretKeyOfEncrip = env['secretKey'] ?? '';
 String urlGetCompany = env['serviceUrlApiProcesses'] ?? '';
 
 /// Constant type authorization to the header
-const String authHeaderKey = "x-access-token";
+const String authHeaderKey = 'Authorization';

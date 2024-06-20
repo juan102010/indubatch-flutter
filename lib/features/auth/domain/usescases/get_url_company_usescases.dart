@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:indubatch_movil/core/network/failure.dart';
 import 'package:indubatch_movil/core/usescases/usescases.dart';
-import 'package:indubatch_movil/features/auth/data/models/get_company_model.dart';
+import 'package:indubatch_movil/features/auth/data/models/response_get_company_model.dart';
 import 'package:indubatch_movil/features/auth/domain/repositories/auth_repository.dart';
 
 

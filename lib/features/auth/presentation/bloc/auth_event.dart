@@ -23,3 +23,19 @@ class GetUrlCompanyEvent extends AuthEvent {
   @override
   List<Object> get props => [urlCompany];
 }
+// -----------------------------------///-----------------------------------///Post to login in the app /// -----------------------------------/// -----------------------------------///
+
+class PostLoginEmail extends AuthEvent {
+  const PostLoginEmail();
+
+  @override
+  List<Object> get props => [];
+}
+
+class IsAuthenticatedEvent extends AuthEvent {
+  final bool isAuthenticated;
+  const IsAuthenticatedEvent({required this.isAuthenticated});
+
+  @override
+  List<Object?> get props => [isAuthenticated];
+}
