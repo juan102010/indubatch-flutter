@@ -12,5 +12,6 @@ abstract class AuthRepository {
   Future<Either<Failure, UsescasePostLoginResult>> login({
     required LoginEntity loginEntity,
   });
-  Future<Either<Failure, UsescaseGetInitialDataResult>> initialData();
+  Future<Either<Failure, UsescaseGetInitialDataResult>> initialData(
+      {required String url});
 }

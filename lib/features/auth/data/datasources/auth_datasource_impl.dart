@@ -20,9 +20,9 @@ class AuthDatasourceImpl implements AuthDatasource {
       {required this.apiClient, required this.localStorageRepository});
 
   Future<String> _getUrlResult() async {
-    GetCompanyEntity? data =
+    GetCompanyEntity data =
         await localStorageRepository.getSecureUrlInfoStorage();
-    print(data.url);
+
     return ExtractProtocol.removeProtocol(data.url!);
   }
 
@@ -48,11 +48,9 @@ class AuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
-  Future<InitialDataResponseModel> initialData() async {
-    String urlResult = await _getUrlResult();
+  Future<InitialDataResponseModel> initialData({required String url}) async {
     final result = await apiClient.get(
-      // urlResult,
-      'indubatch.bpmco.co',
+      url,
       ServerApiConstants.getInitialDataEndpoint,
       serverSchema,
     );

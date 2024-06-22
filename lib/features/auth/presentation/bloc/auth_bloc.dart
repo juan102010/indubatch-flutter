@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:indubatch_movil/core/network/failure.dart';
-import 'package:indubatch_movil/core/usescases/usescases.dart';
+import 'package:indubatch_movil/core/repositories/local_storage_repository.dart';
 import 'package:indubatch_movil/core/utils/constants.dart';
 import 'package:indubatch_movil/features/auth/data/models/company/response_get_company_model.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/company/response_get_company_entity.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/initial_data/response_initial_data_entity.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/login/login_entity.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
@@ -22,6 +23,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetUrlCompanyUsescase getUrlCompanyUsescase;
   final PostLoginUsescase postLoginUsescase;
   final GetInitialDataUsescase getInitialDataUsescase;
+  // Implementation local storage
+  final LocalStorageRepository localStorageRepository;
   //define controllers login
   final _userController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
@@ -37,6 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.getUrlCompanyUsescase,
     required this.postLoginUsescase,
     required this.getInitialDataUsescase,
+    required this.localStorageRepository,
   }) : super(const AuthState()) {
     on<ShowPasswordEvent>((event, emit) =>
         emit(state.copyWith(showPassword: event.showPassword)));
@@ -90,7 +94,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }) async {
     emit(LoadingGetInitialDataState());
 
-    final initialData = await getInitialDataUsescase(NoParams());
+    final initialData =
+        await getInitialDataUsescase(ParamsGetInitialData(url: event.url));
 
     return initialData.fold(
       (failure) {
@@ -100,7 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 ? failure.props.first.toString()
                 : ''));
 
-        return  GetInitialDataState(
+        return GetInitialDataState(
           responseEntity: InitialDataResponseEntity.empty(),
         );
       },
@@ -110,6 +115,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return GetInitialDataState(responseEntity: response.result);
       },
     );
+  }
+// -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
+
+  Future<GetCompanyEntity> getCompany() async {
+    GetCompanyEntity result = const GetCompanyEntity.empty();
+
+    result = await localStorageRepository.getSecureUrlInfoStorage();
+
+    if (result.url!.isNotEmpty) {
+      result = result;
+    }
+    return result;
   }
 
   // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
@@ -135,7 +152,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final user = await getUrlCompanyUsescase(
         ParamsGetUrlCompany(empresa: event.urlCompany));
-
     return user.fold(
       (failure) {
         emit(
@@ -153,6 +169,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
           SuccessGetUrlCompanyState(listGetCompanyEntity: response.result),
         );
+
         return GetUrlCompanyState(listGetCompanyEntity: response.result);
       },
     );

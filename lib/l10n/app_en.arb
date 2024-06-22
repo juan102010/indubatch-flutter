@@ -13,6 +13,9 @@
     "english":"English",
     "language":"Language",
     "accept": "Next",
-	"sorry": "Sorry"
+	"sorry": "Sorry",
+    "companyNotRegister":"upss! the company with which you wish to enter is not registered.",
+    "incorrectAccess":"Incorrect username or password",
+    "getInitialDataIncorrect":"upss!!!, an error has been generated at the moment of obtaining the information of the documents, I tried again"
 
 }

@@ -6,5 +6,5 @@ import 'package:indubatch_movil/features/auth/data/models/login/response_login_m
 abstract class AuthDatasource {
   Future<List<GetCompanyModel>> getCompany({required String empresa});
   Future<LoginResponseModel> login({required LoginModel loginModel});
-  Future<InitialDataResponseModel> initialData();
+  Future<InitialDataResponseModel> initialData({required String url});
 }

@@ -31,7 +31,7 @@ class ServerApiClient {
     required String accessToken,
   }) {
     if (accessToken.isNotEmpty) {
-      _authHeader[authHeaderKey] = accessToken;
+      _authHeader[authHeaderKey] = 'Bearer $accessToken';
     }
   }
 
@@ -49,7 +49,7 @@ class ServerApiClient {
         log(e.toString());
       }
       if (tokenEntity != null) {
-        _authHeader[authHeaderKey] = tokenEntity.token!;
+        _authHeader[authHeaderKey] = 'Bearer ${tokenEntity.token}';
       }
       _authHeader['Content-Type'] = "application/json";
     }
@@ -108,6 +108,7 @@ class ServerApiClient {
     Map<String, String>? queryParameters,
     Map<String, String>? headers,
   }) async {
+    await _restoreAuthHeaders();
     final url = Uri(
       scheme: serverSchema,
       host: host,
@@ -118,7 +119,6 @@ class ServerApiClient {
     http.Response response;
 
     try {
-      await _restoreAuthHeaders();
       response =
           await http.get(url, headers: _authHeader..addAll(headers ?? {}));
     } catch (_) {

@@ -25,6 +25,7 @@ Future<void> injectDependencies() async {
       getUrlCompanyUsescase: getIt(),
       postLoginUsescase: getIt(),
       getInitialDataUsescase: getIt(),
+      localStorageRepository: getIt(),
     ),
   );
 

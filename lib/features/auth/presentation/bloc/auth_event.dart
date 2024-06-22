@@ -43,7 +43,11 @@ class IsAuthenticatedEvent extends AuthEvent {
 // -----------------------------------///-----------------------------------///Post to login in the app /// -----------------------------------/// -----------------------------------///
 
 class GetInitialDataEvent extends AuthEvent {
-  const GetInitialDataEvent();
+  final String url;
+
+  const GetInitialDataEvent({
+    required this.url,
+  });
 
   @override
   List<Object> get props => [];

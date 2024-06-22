@@ -57,6 +57,7 @@ class AuthRepositoryImp implements AuthRepository {
       return Left(ErrorFailure(error: e));
     }
   }
+
   @override
   Future<Either<Failure, UsescasePostLoginResult>> login({
     required LoginEntity loginEntity,
@@ -88,12 +89,12 @@ class AuthRepositoryImp implements AuthRepository {
       return Left(ErrorFailure(error: e));
     }
   }
-  
-  @override
-  Future<Either<Failure, UsescaseGetInitialDataResult>> initialData() async {
-    try {
 
-      final result = await authDataSource.initialData();
+  @override
+  Future<Either<Failure, UsescaseGetInitialDataResult>> initialData(
+      {required String url}) async {
+    try {
+      final result = await authDataSource.initialData(url: url);
       return Right(
         UsescaseGetInitialDataResult(result: result),
       );

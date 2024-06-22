@@ -9,7 +9,7 @@ import 'package:indubatch_movil/features/auth/domain/repositories/auth_repositor
 /// This use case implements the [Usescase] interface to retrieve permits based on the provided parameters.
 /// It interacts with the authentication repository to fetch permits from the server.
 class GetInitialDataUsescase
-    implements Usescase<UsescaseGetInitialDataResult, NoParams> {
+    implements Usescase<UsescaseGetInitialDataResult, ParamsGetInitialData> {
   final AuthRepository repository;
 
   GetInitialDataUsescase({
@@ -18,8 +18,8 @@ class GetInitialDataUsescase
 
   @override
   Future<Either<Failure, UsescaseGetInitialDataResult>> call(
-      NoParams params) async {
-    final result = await repository.initialData();
+      ParamsGetInitialData params) async {
+    final result = await repository.initialData(url: params.url);
 
     return result.fold(
       (failure) => Left(failure),
@@ -40,5 +40,13 @@ class UsescaseGetInitialDataResult {
 
   UsescaseGetInitialDataResult({
     required this.result,
+  });
+}
+
+class ParamsGetInitialData {
+  final String url;
+
+  ParamsGetInitialData({
+    required this.url,
   });
 }

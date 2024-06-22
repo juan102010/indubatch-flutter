@@ -1,5 +1,6 @@
 import 'package:indubatch_movil/core/components/custom_dialog_box.dart';
 import 'package:indubatch_movil/core/theme/app_theme.dart';
+import 'package:indubatch_movil/core/utils/extract_protocol.dart';
 import 'package:indubatch_movil/features/about/presentation/pages/about_screen.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/company/response_get_company_entity.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/initial_data/response_initial_data_entity.dart';
@@ -33,12 +34,14 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final AuthBloc authBloc = getIt<AuthBloc>();
+
   dynamic languageText = '';
   bool _isLoading = false;
   List<GetCompanyEntity> listGetCompanyEntity = [];
   LoginResponseEntity loginResponseEntity = const LoginResponseEntity.empty();
   InitialDataResponseEntity initialDataResponseEntity =
       InitialDataResponseEntity.empty();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,16 +67,19 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   if (state is FailedGetUrlCompanyState) {
                     _isLoading = false;
-                    _errorMessage(state.message);
+                    _errorMessage(
+                        AppLocalizations.of(context)!.companyNotRegister);
                   }
 
                   if (state is FailedPostLoginEmailState) {
                     _isLoading = false;
-                    _errorMessage(state.message);
+                    _errorMessage(
+                        AppLocalizations.of(context)!.incorrectAccess);
                   }
                   if (state is FailedGetInitialDataState) {
                     _isLoading = false;
-                    _errorMessage(state.message);
+                    _errorMessage(
+                        AppLocalizations.of(context)!.getInitialDataIncorrect);
                   }
                   if (state is SuccessGetUrlCompanyState) {
                     _isLoading = false;
@@ -81,13 +87,15 @@ class _LoginPageState extends State<LoginPage> {
                     listGetCompanyEntity.isNotEmpty
                         ? authBloc.add(const PostLoginEmail())
                         : _errorMessage(
-                            'no se encuentra ninguna empresa por ese nombre');
+                            AppLocalizations.of(context)!.companyNotRegister);
                   }
                   if (state is SuccessPostLoginEmailState) {
                     _isLoading = false;
                     if (state.tokenEntity.token!.isNotEmpty) {
                       loginResponseEntity = state.tokenEntity;
-                      authBloc.add(const GetInitialDataEvent());
+                      String urlText = ExtractProtocol.removeProtocol(
+                          listGetCompanyEntity.first.url!);
+                      authBloc.add(GetInitialDataEvent(url: urlText));
                     } else {
                       await _errorMessage(state.tokenEntity.message ?? '');
                     }
@@ -95,7 +103,8 @@ class _LoginPageState extends State<LoginPage> {
                   if (state is SuccessGetInitialDataState) {
                     _isLoading = false;
                     initialDataResponseEntity = state.responseEntity;
-                    print(initialDataResponseEntity);
+                    //TODO Implementación de base de datos local
+                    
                   }
                 },
                 builder: (context, state) => _isLoading
