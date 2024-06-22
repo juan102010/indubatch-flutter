@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:indubatch_movil/features/auth/domain/entities/login_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/login_entity.dart';
 
 class LoginModel extends LoginEntity {
   LoginModel({

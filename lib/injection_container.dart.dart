@@ -8,6 +8,7 @@ import 'package:indubatch_movil/features/auth/data/datasources/auth_datasource.d
 import 'package:indubatch_movil/features/auth/data/datasources/auth_datasource_impl.dart';
 import 'package:indubatch_movil/features/auth/data/repositories/auth_repositories_impl.dart';
 import 'package:indubatch_movil/features/auth/domain/repositories/auth_repository.dart';
+import 'package:indubatch_movil/features/auth/domain/usescases/get_initial_data_usescases.dart';
 import 'package:indubatch_movil/features/auth/domain/usescases/get_url_company_usescases.dart';
 import 'package:indubatch_movil/features/auth/domain/usescases/post_login_usecase.dart';
 import 'package:indubatch_movil/features/auth/presentation/bloc/auth_bloc.dart';
@@ -23,6 +24,7 @@ Future<void> injectDependencies() async {
     () => AuthBloc(
       getUrlCompanyUsescase: getIt(),
       postLoginUsescase: getIt(),
+      getInitialDataUsescase: getIt(),
     ),
   );
 
@@ -38,6 +40,8 @@ Future<void> injectDependencies() async {
   //Login
   getIt.registerLazySingleton(() => GetUrlCompanyUsescase(repository: getIt()));
   getIt.registerLazySingleton(() => PostLoginUsescase(repository: getIt()));
+  getIt
+      .registerLazySingleton(() => GetInitialDataUsescase(repository: getIt()));
 
   // Repository
   getIt.registerLazySingleton<AuthRepository>(

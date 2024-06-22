@@ -32,10 +32,19 @@ class PostLoginEmail extends AuthEvent {
   List<Object> get props => [];
 }
 
+// -----------------------------------///-----------------------------------///Post to login in the app /// -----------------------------------/// -----------------------------------///
 class IsAuthenticatedEvent extends AuthEvent {
   final bool isAuthenticated;
   const IsAuthenticatedEvent({required this.isAuthenticated});
 
   @override
   List<Object?> get props => [isAuthenticated];
+}
+// -----------------------------------///-----------------------------------///Post to login in the app /// -----------------------------------/// -----------------------------------///
+
+class GetInitialDataEvent extends AuthEvent {
+  const GetInitialDataEvent();
+
+  @override
+  List<Object> get props => [];
 }

@@ -125,3 +125,54 @@ class SuccessPostLoginEmailState extends AuthState {
 }
 
 /// --------------------------------------------------/// -----------------------------------/// -----------------------------------/// -----------------------------------
+//-----------------------------------/// -----------------------------------/// Class for login State /// -----------------------------------/// -----------------------------------///
+
+class LoadingGetInitialDataState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FailedGetInitialDataState extends AuthState {
+  final String error;
+  final String message;
+
+  const FailedGetInitialDataState({
+    required this.error,
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [error, message];
+}
+
+class GetInitialDataState extends AuthState {
+  final InitialDataResponseEntity responseEntity;
+
+  const GetInitialDataState({
+    required this.responseEntity,
+  });
+
+  @override
+  List<Object?> get props => [responseEntity];
+
+  @override
+  String toString() {
+    return '''
+      Get Token: 
+        Token: ${responseEntity.toString()}
+    ''';
+  }
+}
+
+class SuccessGetInitialDataState extends AuthState {
+  final InitialDataResponseEntity responseEntity;
+
+  const SuccessGetInitialDataState({
+    required this.responseEntity,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// --------------------------------------------------/// -----------------------------------/// -----------------------------------/// -----------------------------------

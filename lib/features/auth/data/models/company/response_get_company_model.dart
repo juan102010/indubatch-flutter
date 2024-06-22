@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:indubatch_movil/features/auth/domain/entities/response_get_company_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/company/response_get_company_entity.dart';
 
 class GetCompanyModel extends GetCompanyEntity {
   GetCompanyModel({

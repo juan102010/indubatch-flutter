@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:indubatch_movil/core/models/response_without_result_model.dart';
 import 'package:indubatch_movil/core/network/server_info.dart';
 import 'package:indubatch_movil/core/repositories/local_storage_repository.dart';
-import 'package:indubatch_movil/features/auth/domain/entities/response_login_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
 
 import '../utils/transversal.dart';
 import 'network_info.dart';

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:indubatch_movil/features/auth/domain/entities/login_entity.dart';
-import 'package:indubatch_movil/features/auth/domain/entities/response_login_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/login_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
 import '../../../../core/network/failure.dart';
 import '../../../../core/usescases/usescases.dart';
 import '../repositories/auth_repository.dart';

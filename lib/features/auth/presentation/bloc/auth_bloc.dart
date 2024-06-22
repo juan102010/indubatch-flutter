@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:indubatch_movil/core/network/failure.dart';
+import 'package:indubatch_movil/core/usescases/usescases.dart';
 import 'package:indubatch_movil/core/utils/constants.dart';
-import 'package:indubatch_movil/features/auth/data/models/response_get_company_model.dart';
-import 'package:indubatch_movil/features/auth/domain/entities/login_entity.dart';
-import 'package:indubatch_movil/features/auth/domain/entities/response_login_entity.dart';
+import 'package:indubatch_movil/features/auth/data/models/company/response_get_company_model.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/initial_data/response_initial_data_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/login_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/usescases/get_initial_data_usescases.dart';
 import 'package:indubatch_movil/features/auth/domain/usescases/get_url_company_usescases.dart';
 import 'package:indubatch_movil/features/auth/domain/usescases/post_login_usecase.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // Use cases
   final GetUrlCompanyUsescase getUrlCompanyUsescase;
   final PostLoginUsescase postLoginUsescase;
+  final GetInitialDataUsescase getInitialDataUsescase;
   //define controllers login
   final _userController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
@@ -32,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required this.getUrlCompanyUsescase,
     required this.postLoginUsescase,
+    required this.getInitialDataUsescase,
   }) : super(const AuthState()) {
     on<ShowPasswordEvent>((event, emit) =>
         emit(state.copyWith(showPassword: event.showPassword)));
@@ -40,6 +45,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<PostLoginEmail>((event, emit) async {
       emit(await _postLogin(event: event, emit: emit));
+    });
+    on<GetInitialDataEvent>((event, emit) async {
+      emit(await _getInitalData(event: event, emit: emit));
     });
   }
 
@@ -71,6 +79,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(SuccessPostLoginEmailState(tokenEntity: response.result));
 
         return PostLoginEmailState(tokenEntity: response.result);
+      },
+    );
+  }
+
+  // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
+  Future<AuthState> _getInitalData({
+    required GetInitialDataEvent event,
+    required Emitter<AuthState> emit,
+  }) async {
+    emit(LoadingGetInitialDataState());
+
+    final initialData = await getInitialDataUsescase(NoParams());
+
+    return initialData.fold(
+      (failure) {
+        emit(FailedGetInitialDataState(
+            error: _mapFailureToMessage(failure),
+            message: failure.props.isNotEmpty
+                ? failure.props.first.toString()
+                : ''));
+
+        return  GetInitialDataState(
+          responseEntity: InitialDataResponseEntity.empty(),
+        );
+      },
+      (response) {
+        emit(SuccessGetInitialDataState(responseEntity: response.result));
+
+        return GetInitialDataState(responseEntity: response.result);
       },
     );
   }
