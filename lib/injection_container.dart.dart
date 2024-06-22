@@ -12,6 +12,7 @@ import 'package:indubatch_movil/features/auth/domain/usescases/get_initial_data_
 import 'package:indubatch_movil/features/auth/domain/usescases/get_url_company_usescases.dart';
 import 'package:indubatch_movil/features/auth/domain/usescases/post_login_usecase.dart';
 import 'package:indubatch_movil/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:indubatch_movil/features/menu/presentation/bloc/menu_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
@@ -20,6 +21,7 @@ Future<void> injectDependencies() async {
   getIt.pushNewScope();
 
   // Bloc
+  //!--------------------------------login
   getIt.registerFactory(
     () => AuthBloc(
       getUrlCompanyUsescase: getIt(),
@@ -27,6 +29,10 @@ Future<void> injectDependencies() async {
       getInitialDataUsescase: getIt(),
       localStorageRepository: getIt(),
     ),
+  );
+  //!--------------------------------menu
+  getIt.registerFactory(
+    () => MenuBloc(),
   );
 
   //Server Api Client to Http consume rest apis

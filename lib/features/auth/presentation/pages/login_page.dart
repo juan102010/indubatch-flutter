@@ -7,6 +7,7 @@ import 'package:indubatch_movil/features/auth/domain/entities/initial_data/respo
 import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
 import 'package:indubatch_movil/features/auth/presentation/widgets/dropdown_button.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
+import 'package:indubatch_movil/features/menu/presentation/pages/menu_struct_page.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -104,7 +105,8 @@ class _LoginPageState extends State<LoginPage> {
                     _isLoading = false;
                     initialDataResponseEntity = state.responseEntity;
                     //TODO Implementación de base de datos local
-                    
+                    Navigator.pushReplacementNamed(
+                        context, MenuStructPage.routeName);
                   }
                 },
                 builder: (context, state) => _isLoading

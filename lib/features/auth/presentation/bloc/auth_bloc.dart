@@ -53,6 +53,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<GetInitialDataEvent>((event, emit) async {
       emit(await _getInitalData(event: event, emit: emit));
     });
+    on<LogOutUserEvent>((event, emit) async {
+      emit(await _logOutApp());
+    });
+  }
+  // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
+  Future<AuthState> _logOutApp() async {
+    bool response = false;
+    response = await localStorageRepository.deleteSecurityStorageUserInfo();
+
+    return LogOutUserState(result: response);
   }
 
   // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///

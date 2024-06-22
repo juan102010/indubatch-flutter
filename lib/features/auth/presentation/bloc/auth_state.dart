@@ -176,3 +176,15 @@ class SuccessGetInitialDataState extends AuthState {
 }
 
 /// --------------------------------------------------/// -----------------------------------/// -----------------------------------/// -----------------------------------
+/// -----------------------------------/// -----------------------------------/// -----------------------------------/// -----------------------------------
+
+class LogOutUserState extends AuthState {
+  final bool result;
+
+  const LogOutUserState({
+    required this.result,
+  });
+
+  @override
+  List<Object?> get props => [result];
+}

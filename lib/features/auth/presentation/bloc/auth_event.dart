@@ -52,3 +52,9 @@ class GetInitialDataEvent extends AuthEvent {
   @override
   List<Object> get props => [];
 }
+// -----------------------------------///-----------------------------------/// /// -----------------------------------/// -----------------------------------///
+
+class LogOutUserEvent extends AuthEvent {
+  @override
+  List<Object> get props => [];
+}
