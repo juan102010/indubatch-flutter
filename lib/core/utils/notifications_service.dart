@@ -18,7 +18,7 @@ class NotificationsService {
   static showDefaultDialog(String title) {
     return Get.defaultDialog(
       title: title,
-      titleStyle: textStyleNormal(colorWhite,Adaptive.sp(17)),
+      titleStyle: textStyleNormal(colorWhite, Adaptive.sp(17)),
       content: const Column(
         children: [
           CircularProgressIndicator(

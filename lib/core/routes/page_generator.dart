@@ -3,7 +3,9 @@ import 'package:indubatch_movil/features/about/presentation/pages/about_screen.d
 import 'package:indubatch_movil/features/auth/presentation/pages/login_page.dart';
 import 'package:indubatch_movil/features/auth/presentation/pages/splash_screen.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
+import 'package:indubatch_movil/features/menu/presentation/pages/menu_struct_page.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
+import 'package:indubatch_movil/features/pending_documents/presentation/pages/pending_documents_screen.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 /// It is a class that allows you to manipulate screen navigation without losing instances and references of elements
@@ -30,6 +32,9 @@ class PageClassGenerator {
       case AboutScreen.routeName:
         builder = (context) => const AboutScreen();
         break;
+      case MenuStructPage.routeName:
+        builder = (context) => const MenuStructPage();
+        break;
 
       //rutas de prueba
       default:
@@ -43,12 +48,12 @@ class PageClassGenerator {
     );
   }
 
-  Route<dynamic> buildHomeTabPage(RouteSettings routeSettings) {
+  Route<dynamic> buildPendingDocumentsTabPage(RouteSettings routeSettings) {
     Widget Function(BuildContext) builder;
     switch (routeSettings.name) {
-      // case HomePage.routeName:
-      //   builder = (context) => const HomePage();
-      //   break;
+      case PendingDocumentsScreen.routeName:
+        builder = (context) => const PendingDocumentsScreen();
+        break;
 
       default:
         builder = (context) => const Material(

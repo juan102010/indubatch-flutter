@@ -84,7 +84,7 @@ class _CustomDialogBox extends State<CustomDialogBox> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      backgroundColor: secondColor,
+                      backgroundColor: blueColor,
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(

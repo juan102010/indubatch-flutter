@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:indubatch_movil/core/models/response_without_result_model.dart';
+import 'package:indubatch_movil/core/network/server_info.dart';
+import 'package:indubatch_movil/core/repositories/local_storage_repository.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
 
 import '../utils/transversal.dart';
 import 'network_info.dart';
@@ -11,9 +14,11 @@ import 'exception.dart';
 
 class ServerApiClient {
   final NetworkInfoRepository networkInfoRepository;
+  final LocalStorageRepository localStorageRepository;
 
   ServerApiClient({
     required this.networkInfoRepository,
+    required this.localStorageRepository,
   });
 
   final Map<String, String> _authHeader = {};
@@ -21,8 +26,31 @@ class ServerApiClient {
   //Here we can access  to external auth header
   Map<String, String> get authHeader => _authHeader;
 
+  // With tahs method ensured the authorization to the headers
+  void setAccessToken({
+    required String accessToken,
+  }) {
+    if (accessToken.isNotEmpty) {
+      _authHeader[authHeaderKey] = 'Bearer $accessToken';
+    }
+  }
+
+  void deleteAccessToken() {
+    _authHeader.remove(authHeaderKey);
+    _authHeader.remove('Content-Type');
+  }
+
   Future<void> _restoreAuthHeaders() async {
     if (_authHeader.isEmpty) {
+      LoginResponseEntity? tokenEntity;
+      try {
+        tokenEntity = await localStorageRepository.getSecureUserInfoStorage();
+      } catch (e) {
+        log(e.toString());
+      }
+      if (tokenEntity != null) {
+        _authHeader[authHeaderKey] = 'Bearer ${tokenEntity.token}';
+      }
       _authHeader['Content-Type'] = "application/json";
     }
   }
@@ -80,6 +108,7 @@ class ServerApiClient {
     Map<String, String>? queryParameters,
     Map<String, String>? headers,
   }) async {
+    await _restoreAuthHeaders();
     final url = Uri(
       scheme: serverSchema,
       host: host,
@@ -90,7 +119,6 @@ class ServerApiClient {
     http.Response response;
 
     try {
-      await _restoreAuthHeaders();
       response =
           await http.get(url, headers: _authHeader..addAll(headers ?? {}));
     } catch (_) {

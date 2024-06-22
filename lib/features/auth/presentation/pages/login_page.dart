@@ -1,7 +1,12 @@
+import 'package:indubatch_movil/core/components/custom_dialog_box.dart';
 import 'package:indubatch_movil/core/theme/app_theme.dart';
+import 'package:indubatch_movil/core/utils/extract_protocol.dart';
 import 'package:indubatch_movil/features/about/presentation/pages/about_screen.dart';
-import 'package:indubatch_movil/features/auth/presentation/widgets/dropdown_button.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/company/response_get_company_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/initial_data/response_initial_data_entity.dart';
+import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
+import 'package:indubatch_movil/features/menu/presentation/pages/menu_struct_page.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -29,8 +34,14 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final AuthBloc authBloc = getIt<AuthBloc>();
+
   dynamic languageText = '';
   bool _isLoading = false;
+  List<GetCompanyEntity> listGetCompanyEntity = [];
+  LoginResponseEntity loginResponseEntity = const LoginResponseEntity.empty();
+  InitialDataResponseEntity initialDataResponseEntity =
+      InitialDataResponseEntity.empty();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +59,55 @@ class _LoginPageState extends State<LoginPage> {
             body: BlocProvider.value(
               value: authBloc,
               child: BlocConsumer<AuthBloc, AuthState>(
-                listener: (context, state) async {},
+                listener: (context, state) async {
+                  if (state is LoadingGetUrlCompanyState ||
+                      state is LoadingPostLoginEmailState ||
+                      state is LoadingGetInitialDataState) {
+                    _isLoading = true;
+                  }
+                  if (state is FailedGetUrlCompanyState) {
+                    _isLoading = false;
+                    _errorMessage(
+                        AppLocalizations.of(context)!.companyNotRegister);
+                  }
+
+                  if (state is FailedPostLoginEmailState) {
+                    _isLoading = false;
+                    _errorMessage(
+                        AppLocalizations.of(context)!.incorrectAccess);
+                  }
+                  if (state is FailedGetInitialDataState) {
+                    _isLoading = false;
+                    _errorMessage(
+                        AppLocalizations.of(context)!.getInitialDataIncorrect);
+                  }
+                  if (state is SuccessGetUrlCompanyState) {
+                    _isLoading = false;
+                    listGetCompanyEntity = state.listGetCompanyEntity;
+                    listGetCompanyEntity.isNotEmpty
+                        ? authBloc.add(const PostLoginEmail())
+                        : _errorMessage(
+                            AppLocalizations.of(context)!.companyNotRegister);
+                  }
+                  if (state is SuccessPostLoginEmailState) {
+                    _isLoading = false;
+                    if (state.tokenEntity.token!.isNotEmpty) {
+                      loginResponseEntity = state.tokenEntity;
+                      String urlText = ExtractProtocol.removeProtocol(
+                          listGetCompanyEntity.first.url!);
+                      authBloc.add(GetInitialDataEvent(url: urlText));
+                    } else {
+                      await _errorMessage(state.tokenEntity.message ?? '');
+                    }
+                  }
+                  if (state is SuccessGetInitialDataState) {
+                    _isLoading = false;
+                    initialDataResponseEntity = state.responseEntity;
+                    //TODO Implementación de base de datos local
+                    Navigator.pushReplacementNamed(
+                        context, MenuStructPage.routeName);
+                  }
+                },
                 builder: (context, state) => _isLoading
                     ? const CustomLoadingPage()
                     : _principalBody(authBloc, state),
@@ -58,6 +117,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _errorMessage(String message) async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomDialogBox(
+              icon: SvgPicture.asset(
+                warningModalSVG,
+                colorFilter:
+                    const ColorFilter.mode(secondColor, BlendMode.srcIn),
+              ),
+              title: AppLocalizations.of(context)!.sorry,
+              descriptions: message,
+              confirmText: AppLocalizations.of(context)!.accept,
+              onAccept: () {
+                Navigator.pop(context);
+              });
+        });
   }
 
   Widget _principalBody(AuthBloc authBloc, AuthState state) {
@@ -95,11 +173,14 @@ class _LoginPageState extends State<LoginPage> {
                   AppLocalizations.of(context)!.welcomeTo,
                   style: textBlackStyleSubTitle(Adaptive.sp(20)),
                 ),
-                Image(
-                  image: const AssetImage(logoBlue),
-                  fit: BoxFit.fill,
-                  height: 12.h,
-                  width: 93.w,
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.h),
+                  child: Image(
+                    image: const AssetImage(logoBlue),
+                    fit: BoxFit.fill,
+                    height: 13.h,
+                    width: 93.w,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 5.h),
@@ -154,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
               );
             }),
         SizedBox(
-          height: 2.h,
+          height: 3.h,
         ),
         StreamBuilder(
             stream: authBloc.passwordStream,
@@ -198,7 +279,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             }),
-        SizedBox(height: 2.h),
+        SizedBox(height: 3.h),
         StreamBuilder(
             stream: authBloc.companyStream,
             builder: (_, AsyncSnapshot<String> snapshot) {
@@ -221,15 +302,15 @@ class _LoginPageState extends State<LoginPage> {
               );
             }),
         SizedBox(height: 2.h),
-        DropdownButtonLogin(
-          authBloc: authBloc,
-          items: [
-            AppLocalizations.of(context)!.spanish,
-            AppLocalizations.of(context)!.english
-          ],
-          text: AppLocalizations.of(context)!.language,
-          languageController: languageText,
-        )
+        // DropdownButtonLogin(
+        //   authBloc: authBloc,
+        //   items: [
+        //     AppLocalizations.of(context)!.spanish,
+        //     AppLocalizations.of(context)!.english
+        //   ],
+        //   text: AppLocalizations.of(context)!.language,
+        //   languageController: languageText,
+        // )
       ],
     );
   }
@@ -242,18 +323,11 @@ class _LoginPageState extends State<LoginPage> {
         return PrimaryButton(
           onPressed: snapshot.hasData
               ? () async {
-                  Future<String> userNameFuture = authBloc.userStream.first;
-                  String username = await userNameFuture;
-                  Future<String> passwordFuture = authBloc.passwordStream.first;
-                  String password = await passwordFuture;
+          
                   Future<String> companyFuture = authBloc.companyStream.first;
                   String company = await companyFuture;
-                  // Future<String> languageFuture = authBloc.languageStream.first;
-                  // String language = await languageFuture;
 
-                  print(username);
-                  print(password);
-                  print(company);
+                  authBloc.add(GetUrlCompanyEvent(urlCompany: company));
                 }
               : null,
           height: 6.h,

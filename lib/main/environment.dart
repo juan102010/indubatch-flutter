@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_single_quotes
 const Map<String, dynamic> env = {
   //!production
-  "serviceUrlApiIndubatch": "indubatch.bpmco.co",
+
+  "serviceUrlApiProcesses": "procesos.bpmco.co",
   //!local
   // "serviceUrlApiIndubatch": "localhost:44383",
   "protocol": "https",

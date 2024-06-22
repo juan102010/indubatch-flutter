@@ -11,6 +11,11 @@
     "about":"About",
     "spanish":"Spanish",
     "english":"English",
-    "language":"Language"
+    "language":"Language",
+    "accept": "Next",
+	"sorry": "Sorry",
+    "companyNotRegister":"upss! the company with which you wish to enter is not registered.",
+    "incorrectAccess":"Incorrect username or password",
+    "getInitialDataIncorrect":"upss!!!, an error has been generated at the moment of obtaining the information of the documents, I tried again"
 
 }

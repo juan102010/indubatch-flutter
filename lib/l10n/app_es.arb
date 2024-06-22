@@ -12,5 +12,10 @@
     "about":"Acerca de",
     "spanish":"Español",
     "english":"Ingles",
-    "language":"Idioma"
+    "language":"Idioma",
+    "accept": "Continue",
+	"sorry": "Lo sentimos",
+    "companyNotRegister":"upss!! la empresa con la cual deseas ingresar no se encuentra registrada",
+    "incorrectAccess":"Usuario o contraseña incorrectos",
+    "getInitialDataIncorrect":"upss!!, se ha generado un error al momento de obtener la información de los documentos, intenté nuevamente"
 }
