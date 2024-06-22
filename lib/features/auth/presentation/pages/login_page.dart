@@ -5,7 +5,6 @@ import 'package:indubatch_movil/features/about/presentation/pages/about_screen.d
 import 'package:indubatch_movil/features/auth/domain/entities/company/response_get_company_entity.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/initial_data/response_initial_data_entity.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/login/response_login_entity.dart';
-import 'package:indubatch_movil/features/auth/presentation/widgets/dropdown_button.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
 import 'package:indubatch_movil/features/menu/presentation/pages/menu_struct_page.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
@@ -174,11 +173,14 @@ class _LoginPageState extends State<LoginPage> {
                   AppLocalizations.of(context)!.welcomeTo,
                   style: textBlackStyleSubTitle(Adaptive.sp(20)),
                 ),
-                Image(
-                  image: const AssetImage(logoBlue),
-                  fit: BoxFit.fill,
-                  height: 12.h,
-                  width: 93.w,
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.h),
+                  child: Image(
+                    image: const AssetImage(logoBlue),
+                    fit: BoxFit.fill,
+                    height: 13.h,
+                    width: 93.w,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 5.h),
@@ -233,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
               );
             }),
         SizedBox(
-          height: 2.h,
+          height: 3.h,
         ),
         StreamBuilder(
             stream: authBloc.passwordStream,
@@ -277,7 +279,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
               );
             }),
-        SizedBox(height: 2.h),
+        SizedBox(height: 3.h),
         StreamBuilder(
             stream: authBloc.companyStream,
             builder: (_, AsyncSnapshot<String> snapshot) {
@@ -300,15 +302,15 @@ class _LoginPageState extends State<LoginPage> {
               );
             }),
         SizedBox(height: 2.h),
-        DropdownButtonLogin(
-          authBloc: authBloc,
-          items: [
-            AppLocalizations.of(context)!.spanish,
-            AppLocalizations.of(context)!.english
-          ],
-          text: AppLocalizations.of(context)!.language,
-          languageController: languageText,
-        )
+        // DropdownButtonLogin(
+        //   authBloc: authBloc,
+        //   items: [
+        //     AppLocalizations.of(context)!.spanish,
+        //     AppLocalizations.of(context)!.english
+        //   ],
+        //   text: AppLocalizations.of(context)!.language,
+        //   languageController: languageText,
+        // )
       ],
     );
   }
@@ -321,18 +323,9 @@ class _LoginPageState extends State<LoginPage> {
         return PrimaryButton(
           onPressed: snapshot.hasData
               ? () async {
-                  Future<String> userNameFuture = authBloc.userStream.first;
-                  String username = await userNameFuture;
-                  Future<String> passwordFuture = authBloc.passwordStream.first;
-                  String password = await passwordFuture;
+          
                   Future<String> companyFuture = authBloc.companyStream.first;
                   String company = await companyFuture;
-                  // Future<String> languageFuture = authBloc.languageStream.first;
-                  // String language = await languageFuture;
-
-                  print(username);
-                  print(password);
-                  print(company);
 
                   authBloc.add(GetUrlCompanyEvent(urlCompany: company));
                 }

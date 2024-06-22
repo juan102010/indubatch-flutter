@@ -1,7 +1,3 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/cupertino.dart' hide CupertinoTabBar;
@@ -9,7 +5,6 @@ import 'package:flutter/foundation.dart';
 
 import '../../../../core/theme/colors.dart';
 
-// Standard iOS 10 tab bar height.
 const double _kTabBarHeight = 50.0;
 
 const Color _kDefaultTabBarBorderColor = CupertinoDynamicColor.withBrightness(
@@ -18,45 +13,8 @@ const Color _kDefaultTabBarBorderColor = CupertinoDynamicColor.withBrightness(
 );
 const Color _kDefaultTabBarInactiveColor = CupertinoColors.inactiveGray;
 
-/// An iOS-styled bottom navigation tab bar.
-///
-/// Displays multiple tabs using [BottomNavigationBarItem] with one tab being
-/// active, the first tab by default.
-///
-/// This [StatelessWidget] doesn't store the active tab itself. You must
-/// listen to the [onTap] callbacks and call `setState` with a new [currentIndex]
-/// for the new selection to reflect. This can also be done automatically
-/// by wrapping this with a [CupertinoTabScaffold].
-///
-/// Tab changes typically trigger a switch between [Navigator]s, each with its
-/// own navigation stack, per standard iOS design. This can be done by using
-/// [CupertinoTabView]s inside each tab builder in [CupertinoTabScaffold].
-///
-/// If the given [backgroundColor]'s opacity is not 1.0 (which is the case by
-/// default), it will produce a blurring effect to the content behind it.
-///
-/// When used as [CupertinoTabScaffold.tabBar], by default `CupertinoTabBar` has
-/// its text scale factor set to 1.0 and does not respond to text scale factor
-/// changes from the operating system, to match the native iOS behavior. To override
-/// this behavior, wrap each of the `navigationBar`'s components inside a [MediaQuery]
-/// with the desired [MediaQueryData.textScaleFactor] value. The text scale factor
-/// value from the operating system can be retrieved in many ways, such as querying
-/// [MediaQuery.textScaleFactorOf] against [CupertinoApp]'s [BuildContext].
-///
-/// {@tool dartpad}
-/// This example shows a [CupertinoTabBar] placed in a [CupertinoTabScaffold].
-///
-/// ** See code in examples/api/lib/cupertino/bottom_tab_bar/cupertino_tab_bar.0.dart **
-/// {@end-tool}
-///
-/// See also:
-///
-///  * [CupertinoTabScaffold], which hosts the [CupertinoTabBar] at the bottom.
-///  * [BottomNavigationBarItem], an item in a [CupertinoTabBar].
-///  * <https://developer.apple.com/design/human-interface-guidelines/ios/bars/tab-bars/>
 class CustomCupertinoTabBar extends StatelessWidget
     implements PreferredSizeWidget {
-  /// Creates a tab bar in the iOS style.
   const CustomCupertinoTabBar({
     super.key,
     required this.items,
@@ -70,87 +28,41 @@ class CustomCupertinoTabBar extends StatelessWidget
     this.border = const Border(
       top: BorderSide(
         color: _kDefaultTabBarBorderColor,
-        width: 0.0, // 0.0 means one physical pixel
+        width: 0.0,
       ),
     ),
-    // ignore: unnecessary_null_comparison
   })  : assert(items != null),
         assert(
           items.length >= 2,
           "Tabs need at least 2 items to conform to Apple's HIG",
         ),
-        // ignore: unnecessary_null_comparison
         assert(currentIndex != null),
         assert(0 <= currentIndex && currentIndex < items.length),
-        // ignore: unnecessary_null_comparison
         assert(iconSize != null),
-        // ignore: unnecessary_null_comparison
         assert(height != null && height >= 0.0),
-        // ignore: unnecessary_null_comparison
         assert(inactiveColor != null);
 
-  /// The interactive items laid out within the bottom navigation bar.
-  ///
-  /// Must not be null.
   final List<BottomNavigationBarItem> items;
 
-  /// The callback that is called when a item is tapped.
-  ///
-  /// The widget creating the bottom navigation bar needs to keep track of the
-  /// current index and call `setState` to rebuild it with the newly provided
-  /// index.
   final ValueChanged<int>? onTap;
 
-  /// The index into [items] of the current active item.
-  ///
-  /// Must not be null and must inclusively be between 0 and the number of tabs
-  /// minus 1.
   final int currentIndex;
 
-  /// The background color of the tab bar. If it contains transparency, the
-  /// tab bar will automatically produce a blurring effect to the content
-  /// behind it.
-  ///
-  /// Defaults to [CupertinoTheme]'s `barBackgroundColor` when null.
   final Color? backgroundColor;
 
-  /// The foreground color of the icon and title for the [BottomNavigationBarItem]
-  /// of the selected tab.
-  ///
-  /// Defaults to [CupertinoTheme]'s `primaryColor` if null.
   final Color? activeColor;
 
-  /// The foreground color of the icon and title for the [BottomNavigationBarItem]s
-  /// in the unselected state.
-  ///
-  /// Defaults to a [CupertinoDynamicColor] that matches the disabled foreground
-  /// color of the native `UITabBar` component. Cannot be null.
   final Color inactiveColor;
 
-  /// The size of all of the [BottomNavigationBarItem] icons.
-  ///
-  /// This value is used to configure the [IconTheme] for the navigation bar.
-  /// When a [BottomNavigationBarItem.icon] widget is not an [Icon] the widget
-  /// should configure itself to match the icon theme's size and color.
-  ///
-  /// Must not be null.
   final double iconSize;
 
-  /// The height of the [CupertinoTabBar].
-  ///
-  /// Defaults to 50.0. Must not be null.
   final double height;
 
-  /// The border of the [CupertinoTabBar].
-  ///
-  /// The default value is a one physical pixel top border with grey color.
   final Border? border;
 
   @override
   Size get preferredSize => Size.fromHeight(height);
 
-  /// Indicates whether the tab bar is fully opaque or can have contents behind
-  /// it show through it.
   bool opaque(BuildContext context) {
     final Color backgroundColor =
         this.backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
@@ -184,10 +96,8 @@ class CustomCupertinoTabBar extends StatelessWidget
       child: SizedBox(
         height: height + bottomPadding,
         child: IconTheme.merge(
-          // Default with the inactive state.
           data: IconThemeData(color: inactive, size: iconSize),
           child: DefaultTextStyle(
-            // Default with the inactive state.
             style: CupertinoTheme.of(context)
                 .textTheme
                 .tabLabelTextStyle
@@ -197,7 +107,6 @@ class CustomCupertinoTabBar extends StatelessWidget
               child: Semantics(
                 explicitChildNodes: true,
                 child: Row(
-                  // Align bottom since we want the labels to be aligned.
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: _buildTabItems(context),
                 ),
@@ -209,7 +118,6 @@ class CustomCupertinoTabBar extends StatelessWidget
     );
 
     if (!opaque(context)) {
-      // For non-opaque backgrounds, apply a blur effect.
       result = ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
@@ -275,7 +183,6 @@ class CustomCupertinoTabBar extends StatelessWidget
     ];
   }
 
-  /// Change the active tab item's icon and title colors to active.
   Widget _wrapActiveItem(
     BuildContext context,
     Widget item, {
@@ -298,8 +205,6 @@ class CustomCupertinoTabBar extends StatelessWidget
     );
   }
 
-  /// Create a clone of the current [CupertinoTabBar] but with provided
-  /// parameters overridden.
   CustomCupertinoTabBar copyWith({
     Key? key,
     List<BottomNavigationBarItem>? items,
