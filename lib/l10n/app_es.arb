@@ -17,5 +17,16 @@
 	"sorry": "Lo sentimos",
     "companyNotRegister":"upss!! la empresa con la cual deseas ingresar no se encuentra registrada",
     "incorrectAccess":"Usuario o contraseña incorrectos",
-    "getInitialDataIncorrect":"upss!!, se ha generado un error al momento de obtener la información de los documentos, intenté nuevamente"
+    "getInitialDataIncorrect":"upss!!, se ha generado un error al momento de obtener la información de los documentos, intenté nuevamente",
+    "settings":"Configuración",
+    "url":"Url",
+    "equipmentInformation":"Información del equipo",
+    "modelInformation":"Modelo: ",
+    "teamNameInformation":"Nombre del equipo: ",
+    "oSVersionInformation":"Versión S.O: ",
+    "appVersionInformation":"Versión App: ",
+    "deviceIDInformation":"Id dispositivo: ",
+    "sendConfiguration":"Enviar configuración",
+    "connectionTest":"Test de conexión",
+    "sendDatabase":"Enviar base de datos"
 }

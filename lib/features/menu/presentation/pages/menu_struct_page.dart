@@ -149,6 +149,9 @@ class _MenuStructPageState extends State<MenuStructPage> {
             ?.currentState
             ?.pushReplacementNamed(PendingDocumentsScreen.routeName);
       }
+      if (index == 1) {
+        _logOut(context);
+      }
 
       setState(() {
         _selectBottomTabIndex = index;
@@ -158,6 +161,11 @@ class _MenuStructPageState extends State<MenuStructPage> {
         navigators[index]?.currentState?.pop();
       }
     }
+  }
+
+  void _logOut(BuildContext context) {
+    authBLoc.add(LogOutUserEvent());
+    Navigator.pushReplacementNamed(context, LoginPage.routeName);
   }
 
   Widget _tab(BuildContext context, int tabIndex) {

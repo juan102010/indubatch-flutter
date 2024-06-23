@@ -16,6 +16,17 @@
 	"sorry": "Sorry",
     "companyNotRegister":"upss! the company with which you wish to enter is not registered.",
     "incorrectAccess":"Incorrect username or password",
-    "getInitialDataIncorrect":"upss!!!, an error has been generated at the moment of obtaining the information of the documents, I tried again"
+    "getInitialDataIncorrect":"upss!!!, an error has been generated at the moment of obtaining the information of the documents, I tried again",
+    "settings":"Settings",
+    "url":"Url",
+    "equipmentInformation":"Equipment information",
+    "modelInformation":"Model: ",
+    "teamNameInformation":"Team name: ",
+    "oSVersionInformation":"Version S.O: ",
+    "appVersionInformation":"Version App: ",
+    "deviceIDInformation":"Id Device: ",
+    "sendConfiguration":"Send configuration",
+    "connectionTest":"Connection test",
+    "sendDatabase":"Enviar base de datos"
 
 }

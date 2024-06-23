@@ -18,6 +18,7 @@ const String qrcode = "assets/icons/qrcode.png";
 const String profileSVG = "assets/icons/profile.svg";
 const String emailInvisibleSVG = 'assets/icons/icono_email_inactivo.svg';
 const String alertIconSVG = 'assets/icons/alert_icon.svg';
+const String urlIconSVG = 'assets/icons/url.svg';
 
 //images
 const String cameraImage = "assets/images/camera.png";

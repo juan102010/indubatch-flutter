@@ -2,24 +2,22 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:indubatch_movil/core/theme/colors.dart';
 import 'package:indubatch_movil/core/theme/fonts.dart';
-import 'package:indubatch_movil/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:indubatch_movil/features/configuration/presentation/bloc/configuration_bloc.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-/// A dropdown button widget for selecting a company.
 class DropdownButtonLogin extends StatefulWidget {
-  /// Constructs a [DropdownButtonLogin] with the provided [items] and [authBloc].
   const DropdownButtonLogin({
     super.key,
     required this.items,
-    required this.authBloc,
+    required this.updateBloc,
     this.languageController,
     required this.text,
   });
 
   final List<String> items;
 
-  final AuthBloc authBloc;
+  final ConfigurationBloc updateBloc;
 
   final String? languageController;
 
@@ -29,27 +27,23 @@ class DropdownButtonLogin extends StatefulWidget {
   State<DropdownButtonLogin> createState() => _DropdownButtonLoginState();
 }
 
-/// The controller for the search text field within the dropdown.
-final TextEditingController textEditingController = TextEditingController();
-
 class _DropdownButtonLoginState extends State<DropdownButtonLogin> {
-  String? selectedValueCompany;
   String? selectedValueLanguage;
 
   @override
   Widget build(BuildContext context) {
     if (widget.languageController != null &&
         widget.languageController!.isNotEmpty) {
-      widget.authBloc.updateLanguage(widget.languageController!, context);
+      widget.updateBloc.updateLanguage(widget.languageController!, context);
       setState(() {
-        selectedValueCompany = widget.languageController;
+        selectedValueLanguage = widget.languageController;
       });
     }
 
     final size = MediaQuery.of(context).size;
     return DropdownButtonHideUnderline(
       child: DropdownButton2<String>(
-        value: selectedValueCompany,
+        value: selectedValueLanguage,
         isExpanded: true,
         items: widget.items
             .map(
@@ -68,9 +62,9 @@ class _DropdownButtonLoginState extends State<DropdownButtonLogin> {
         ),
         onChanged: (String? value) {
           setState(() {
-            selectedValueCompany = value;
+            selectedValueLanguage = value;
           });
-          widget.authBloc.updateLanguage(value!, context);
+          widget.updateBloc.updateLanguage(value!, context);
         },
         buttonStyleData: ButtonStyleData(
           padding: EdgeInsets.symmetric(horizontal: 2.w),
