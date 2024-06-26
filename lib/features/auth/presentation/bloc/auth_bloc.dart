@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:indubatch_movil/core/network/failure.dart';
 import 'package:indubatch_movil/core/repositories/local_storage_repository.dart';
+import 'package:indubatch_movil/core/routes/cache.dart';
 import 'package:indubatch_movil/core/utils/constants.dart';
 import 'package:indubatch_movil/features/auth/data/models/company/response_get_company_model.dart';
 import 'package:indubatch_movil/features/auth/domain/entities/company/response_get_company_entity.dart';
@@ -57,7 +58,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(await _logOutApp());
     });
   }
-  // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
   Future<AuthState> _logOutApp() async {
     bool response = false;
     response = await localStorageRepository.deleteSecurityStorageUserInfo();
@@ -133,7 +133,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result = await localStorageRepository.getSecureUrlInfoStorage();
 
-    if (result.url!.isNotEmpty) {
+    if (result.url.isNotEmpty) {
       result = result;
     }
     return result;
@@ -162,6 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final user = await getUrlCompanyUsescase(
         ParamsGetUrlCompany(empresa: event.urlCompany));
+
     return user.fold(
       (failure) {
         emit(
@@ -179,7 +180,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
           SuccessGetUrlCompanyState(listGetCompanyEntity: response.result),
         );
-
+        CacheService.saveDataCompanyUser(
+          companyUrl: response.result[0].url,
+          company: response.result[0].empresa,
+        );
         return GetUrlCompanyState(listGetCompanyEntity: response.result);
       },
     );

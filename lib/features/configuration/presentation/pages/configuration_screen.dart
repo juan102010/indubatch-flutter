@@ -7,10 +7,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:indubatch_movil/core/components/custom_input.dart';
 import 'package:indubatch_movil/core/components/custom_loading.dart';
 import 'package:indubatch_movil/core/components/primary_button.dart';
+import 'package:indubatch_movil/core/routes/cache.dart';
 import 'package:indubatch_movil/core/routes/resource_icons.dart';
 import 'package:indubatch_movil/core/theme/colors.dart';
 import 'package:indubatch_movil/core/theme/fonts.dart';
-import 'package:indubatch_movil/features/auth/domain/entities/company/response_get_company_entity.dart';
 import 'package:indubatch_movil/core/components/dropdown_button.dart';
 import 'package:indubatch_movil/features/configuration/domain/entities/get_information_entity.dart';
 import 'package:indubatch_movil/features/configuration/presentation/bloc/configuration_bloc.dart';
@@ -31,20 +31,29 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
   final ConfigurationBloc configurationBloc = getIt<ConfigurationBloc>();
   bool _isLoading = false;
   dynamic languageText = '';
-  GetCompanyEntity data = const GetCompanyEntity.empty();
   var deviceData = <String, dynamic>{};
   GetInformationEntity getInformationEntity =
       const GetInformationEntity.empty();
+  late String? url;
+  late String? comapny;
 
   @override
   void initState() {
+    _loadCompanyUserData();
     initPlatformState();
-    processScreen();
     super.initState();
   }
 
-  Future<void> processScreen() async {
-    data = await configurationBloc.dataUrl();
+  Future<void> _loadCompanyUserData() async {
+    final data = await CacheService.getDataCompanyUser();
+    if (data != null) {
+      url = data['companyUrl'];
+      comapny = data['company'];
+      setState(() {});
+    } else {
+      url = 'null';
+      comapny = 'null';
+    }
   }
 
   Future<void> initPlatformState() async {
@@ -104,7 +113,6 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
   }
 
   Widget _principalBody() {
-    final size = MediaQuery.of(context).size;
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(
         parent: BouncingScrollPhysics(),
@@ -187,8 +195,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
           stream: configurationBloc.urlStream,
           builder: (_, AsyncSnapshot<String> snapshot) {
             return CustomInput(
-              initialValue:
-                  data.url == null || data.url!.isEmpty ? 'Null' : data.url!,
+              initialValue: url,
               suffixIcon: Padding(
                 padding: EdgeInsets.only(right: 1.w),
                 child: SvgPicture.asset(
@@ -216,9 +223,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
           stream: configurationBloc.companyStream,
           builder: (_, AsyncSnapshot<String> snapshot) {
             return CustomInput(
-              initialValue: data.empresa == null || data.empresa!.isEmpty
-                  ? 'Null'
-                  : data.empresa!,
+              initialValue: comapny,
               suffixIcon: Padding(
                 padding: EdgeInsets.only(right: 1.w),
                 child: SvgPicture.asset(

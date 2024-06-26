@@ -1,13 +1,12 @@
-
 class GetCompanyEntity {
-  final String? url;
+  final String url;
   final String? logo;
   final String? nombre;
   final String? empresa;
   final int? resol;
 
   GetCompanyEntity({
-    this.url,
+    required this.url,
     this.logo,
     this.nombre,
     this.empresa,

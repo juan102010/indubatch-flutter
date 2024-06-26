@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (state.tokenEntity.token!.isNotEmpty) {
                       loginResponseEntity = state.tokenEntity;
                       String urlText = ExtractProtocol.removeProtocol(
-                          listGetCompanyEntity.first.url!);
+                          listGetCompanyEntity.first.url);
                       authBloc.add(GetInitialDataEvent(url: urlText));
                     } else {
                       await _errorMessage(state.tokenEntity.message ?? '');
@@ -302,15 +302,6 @@ class _LoginPageState extends State<LoginPage> {
               );
             }),
         SizedBox(height: 2.h),
-        // DropdownButtonLogin(
-        //   authBloc: authBloc,
-        //   items: [
-        //     AppLocalizations.of(context)!.spanish,
-        //     AppLocalizations.of(context)!.english
-        //   ],
-        //   text: AppLocalizations.of(context)!.language,
-        //   languageController: languageText,
-        // )
       ],
     );
   }
@@ -323,7 +314,6 @@ class _LoginPageState extends State<LoginPage> {
         return PrimaryButton(
           onPressed: snapshot.hasData
               ? () async {
-          
                   Future<String> companyFuture = authBloc.companyStream.first;
                   String company = await companyFuture;
 

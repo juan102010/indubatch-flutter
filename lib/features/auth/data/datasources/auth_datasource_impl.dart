@@ -23,7 +23,7 @@ class AuthDatasourceImpl implements AuthDatasource {
     GetCompanyEntity data =
         await localStorageRepository.getSecureUrlInfoStorage();
 
-    return ExtractProtocol.removeProtocol(data.url!);
+    return ExtractProtocol.removeProtocol(data.url);
   }
 
   @override

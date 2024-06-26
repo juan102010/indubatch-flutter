@@ -37,10 +37,12 @@ class AuthRepositoryImp implements AuthRepository {
 
       // ignore: unused_local_variable
       GetCompanyEntity response = const GetCompanyEntity.empty();
-      if (result.first.url!.isNotEmpty) {
+      if (result[0].url.isNotEmpty) {
         response = await localStorageRepository.setSecureUrlInfoStorage(
-          model: result.first,
+          model: result[0],
         );
+      } else {
+        response = response;
       }
       return Right(
         UsescaseGetUrlCompanyResult(result: result),

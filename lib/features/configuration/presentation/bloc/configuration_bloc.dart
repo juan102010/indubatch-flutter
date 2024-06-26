@@ -23,7 +23,11 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
   Stream<String> get languageStream => _languageController.stream;
 
   ConfigurationBloc({required this.localStorageRepository})
-      : super(const ConfigurationState());
+      : super(const ConfigurationState()) {
+    on<GetLoginUrlDataEvent>((event, emit) async {
+      emit(await _getLoginUrlResponseEntity(event: event, emit: emit));
+    });
+  }
 
   void updateUrl(String url, BuildContext context) async {
     _urlController.sink.add(url);
@@ -87,19 +91,19 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
     };
   }
 
-  Future<GetCompanyEntity> dataUrl() async {
-    GetCompanyEntity response = const GetCompanyEntity.empty();
-    GetCompanyEntity userEntity = const GetCompanyEntity.empty();
+  // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
+  //Method to obtain information of user
+  Future<ConfigurationState> _getLoginUrlResponseEntity({
+    required GetLoginUrlDataEvent event,
+    required Emitter<ConfigurationState> emit,
+  }) async {
+    GetCompanyEntity loginResponseEntity =
+        await localStorageRepository.getSecureUrlInfoStorage();
 
-    try {
-      userEntity = await localStorageRepository.getSecureUrlInfoStorage();
-    } catch (_) {}
+    emit(SuccesLoginUrlStorageState(responseEntity: loginResponseEntity));
 
-    if (userEntity == null) {
-      response = const GetCompanyEntity.empty();
-    } else {
-      response = userEntity;
-    }
-    return response;
+    return PostLoginUrlEntityStorageState(responseEntity: loginResponseEntity);
   }
+
+  // -----------------------------------///-----------------------------------///------------------------/// -----------------------------------/// ----------------------------------///
 }
