@@ -27,6 +27,11 @@
     "deviceIDInformation":"Id Device: ",
     "sendConfiguration":"Send configuration",
     "connectionTest":"Connection test",
-    "sendDatabase":"Enviar base de datos"
+    "sendDatabase":"Enviar base de datos",
+    "downloadTest":"Download Test",
+    "downloadResult":"Download result",
+    "start":"Start",
+    "uploadTest":"Upload Test",
+    "uploadResult":"Upload result"
 
 }

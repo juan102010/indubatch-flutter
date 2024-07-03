@@ -3,6 +3,7 @@ import 'package:indubatch_movil/features/about/presentation/pages/about_screen.d
 import 'package:indubatch_movil/features/auth/presentation/pages/login_page.dart';
 import 'package:indubatch_movil/features/auth/presentation/pages/splash_screen.dart';
 import 'package:indubatch_movil/features/configuration/presentation/pages/configuration_screen.dart';
+import 'package:indubatch_movil/features/configuration/presentation/pages/speed_test_screen.dart';
 import 'package:indubatch_movil/features/menu/presentation/pages/menu_struct_page.dart';
 import 'package:indubatch_movil/features/password_change/presentation/pages/password_change_screen.dart';
 import 'package:indubatch_movil/features/pending_documents/presentation/pages/pending_documents_screen.dart';
@@ -34,6 +35,9 @@ class PageClassGenerator {
         break;
       case MenuStructPage.routeName:
         builder = (context) => const MenuStructPage();
+        break;
+      case SpeedTestScreen.routeName:
+        builder = (context) => const SpeedTestScreen();
         break;
 
       //rutas de prueba

@@ -82,8 +82,8 @@ class _LoginPageState extends State<LoginPage> {
                         AppLocalizations.of(context)!.getInitialDataIncorrect);
                   }
                   if (state is SuccessGetUrlCompanyState) {
-                    _isLoading = false;
                     listGetCompanyEntity = state.listGetCompanyEntity;
+                    _isLoading = false;
                     listGetCompanyEntity.isNotEmpty
                         ? authBloc.add(const PostLoginEmail())
                         : _errorMessage(

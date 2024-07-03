@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:indubatch_movil/core/components/custom_dialog_box.dart';
 import 'package:indubatch_movil/core/components/custom_input.dart';
 import 'package:indubatch_movil/core/components/custom_loading.dart';
 import 'package:indubatch_movil/core/components/primary_button.dart';
@@ -12,8 +13,12 @@ import 'package:indubatch_movil/core/routes/resource_icons.dart';
 import 'package:indubatch_movil/core/theme/colors.dart';
 import 'package:indubatch_movil/core/theme/fonts.dart';
 import 'package:indubatch_movil/core/components/dropdown_button.dart';
+import 'package:indubatch_movil/core/utils/extract_protocol.dart';
 import 'package:indubatch_movil/features/configuration/domain/entities/get_information_entity.dart';
+import 'package:indubatch_movil/features/configuration/domain/entities/post_configuration_entity.dart';
+import 'package:indubatch_movil/features/configuration/domain/entities/response_post_configuration_entity.dart';
 import 'package:indubatch_movil/features/configuration/presentation/bloc/configuration_bloc.dart';
+import 'package:indubatch_movil/features/configuration/presentation/pages/speed_test_screen.dart';
 import 'package:indubatch_movil/features/configuration/presentation/widgets/box_information.dart';
 import 'package:indubatch_movil/injection_container.dart.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -32,6 +37,8 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
   bool _isLoading = false;
   dynamic languageText = '';
   var deviceData = <String, dynamic>{};
+  ResponsePostConfigurationEntity responsePostConfigurationEntity =
+      const ResponsePostConfigurationEntity.empty();
   GetInformationEntity getInformationEntity =
       const GetInformationEntity.empty();
   late String? url;
@@ -101,7 +108,23 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
             body: BlocProvider.value(
               value: configurationBloc,
               child: BlocConsumer<ConfigurationBloc, ConfigurationState>(
-                listener: (context, state) async {},
+                listener: (context, state) async {
+                  if (state is LoadingPostConfigurationState) {
+                    _isLoading = true;
+                  }
+                  if (state is FailedPostConfigurationState) {
+                    _isLoading = false;
+                    _errorMessage(
+                        'AppLocalizations.of(context)!.companyNotRegister');
+                  }
+                  if (state is SuccessPostConfigurationState) {
+                    responsePostConfigurationEntity =
+                        state.responsePostConfigurationEntity;
+                    _errorMessage(
+                        responsePostConfigurationEntity.resultado.toString());
+                    _isLoading = false;
+                  }
+                },
                 builder: (context, state) =>
                     _isLoading ? const CustomLoadingPage() : _principalBody(),
               ),
@@ -158,7 +181,26 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
       child: Column(
         children: [
           PrimaryButton(
-            onPressed: null,
+            onPressed: url == null
+                ? null
+                : url!.isEmpty || url == 'null'
+                    ? null
+                    : () {
+                        PostConfigurationEntity postConfigurationEntity =
+                            PostConfigurationEntity(
+                          codigoUsuario: '',
+                          idDispositivo: '',
+                          modelo: '',
+                          nombreUsuario: '',
+                          url: url!,
+                          versionApp: '',
+                          versionSo: '',
+                        );
+                        String urlResult = ExtractProtocol.removeProtocol(url!);
+                        configurationBloc.add(PostConfigurationEvent(
+                            postConfigurationEntity: postConfigurationEntity,
+                            url: urlResult));
+                      },
             height: 6.h,
             child: Text(AppLocalizations.of(context)!.sendConfiguration,
                 style: textWhiteStyleButton),
@@ -167,7 +209,9 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
             height: 2.h,
           ),
           PrimaryButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.pushNamed(context, SpeedTestScreen.routeName);
+            },
             height: 6.h,
             child: Text(AppLocalizations.of(context)!.connectionTest,
                 style: textWhiteStyleButton),
@@ -184,6 +228,25 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _errorMessage(String message) async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomDialogBox(
+              icon: SvgPicture.asset(
+                warningModalSVG,
+                colorFilter:
+                    const ColorFilter.mode(secondColor, BlendMode.srcIn),
+              ),
+              title: AppLocalizations.of(context)!.sorry,
+              descriptions: message,
+              confirmText: AppLocalizations.of(context)!.accept,
+              onAccept: () {
+                Navigator.pop(context);
+              });
+        });
   }
 
   Widget _middleView() {
